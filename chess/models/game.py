@@ -1,5 +1,14 @@
-def start_game():
-    print("######## Bienvenue ########")
+from os import system, name
 
-if __name__ == "__main__":
-    start_game()
+
+def start_game():
+    print("###### Commencer un tournoi ########")
+
+
+def clear():
+    # for windows
+    if name == 'nt':
+        _ = system('cls')
+    # for mac and linux(here, os.name is 'posix')
+    else:
+        _ = system('clear')
