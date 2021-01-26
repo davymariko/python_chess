@@ -1,4 +1,3 @@
-from tinydb import TinyDB
 from time import sleep
 from chess.models.game import start_game, clear
 
