@@ -1,3 +1,6 @@
 Test
 */__pycache__/
+chess/models/__pycache__/
+chess/controller/__pycache__/
+chess/view/__pycache__/
 .vscode
