@@ -6,6 +6,17 @@ class Player():
         self.gender = gender
         self.score = score
 
+    # def is_valid(self):
+    #     message = ""
+    #     test_dat = self.score
+
     @property
-    def change_score(self, new_score):
-        self.score = new_score
+    def record(self):
+
+        return {
+                    'first_name': self.first_name,
+                    'last_name': self.last_name,
+                    'birth_date': self.date,
+                    'gender': self.gender,
+                    'score': self.score
+                }
