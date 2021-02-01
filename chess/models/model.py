@@ -46,3 +46,7 @@ def check_duplicates(table, player_info):
             break
 
     return check
+
+
+def swiss_pair_generator():
+    print("Paires générées pour ce tour: ")

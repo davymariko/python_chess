@@ -2,48 +2,73 @@ from os import system, name
 from time import sleep
 from chess.models.player import Player
 from chess.models.model import (save_player, see_players, number_players,
-                                delete_players)
+                                delete_players, swiss_pair_generator)
 
 
 def start_game():
     clear()
     print("######## Bienvenue ########\n")
-    print("1. Commencer un tournoi\n2. Voir classement\
-        \n3. Voir les tournois passés\n4. Quitter")
+    print("1. Commencer un tournoi\n2. Voir joueurs inscrits\
+        \n3. Nombre de joueurs inscrits\n4. Effacer tous les joueurs\
+        \n5. Rapport\n6. Quitter")
     jeux = int(input(("\n>>> ")))
     if jeux == 1:
         start_tournament()
+    elif jeux == 2:
+        clear()
+        see_players()
+        input("")
+        start_game()
+    elif jeux == 3:
+        clear()
+        print(f'Nombre de joueurs inscrits: {number_players()}')
+        input("")
+        start_game()
+    elif jeux == 4:
+        delete_players()
+        clear()
+        print("Tous les joueurs ont été effacés")
+        input("")
+        start_game()
 
 
 def start_tournament():
     clear()
     print("######## Nouveau Tournoi ########\n")
-    print("1. Ajouter des joueurs\n2. Charger liste des joueurs existants")
-    print("3. Nombre de joueurs inscrits")
-    print("4. Effacer tous les jouers")
-    print("5. Retour au menu principal")
+    tournament_name = input("Nom du tournoi: ")
+    venue = input("Lieu: ")
+    tournament_date = input("Date du tournoi (Format: jj/mm/aaaa): ")
+    print("\n**** Place à la création des joueurs")
+    sleep(2)
+    generate_players(1)
+    clear()
+    print("######## Nouveau Tournoi ########\n")
+    print(f"Nom du tournoi: {tournament_name}")
+    print(f"Lieu: {venue}")
+    print(f"Date du tournoi: {tournament_date}")
+    print("\n1. Charger liste des joueurs existants\n2. Générer des paires\
+        \n3. Retour au menu principal")
     players_choice = int(input("\n>>> "))
-
-    if players_choice == 5:
-        start_game()
-    elif players_choice == 1:
-        generate_players(players_choice)
-    elif players_choice == 2:
+    if players_choice == 1:
+        clear()
         see_players()
+        input("")
+    elif players_choice == 2:
+        clear()
+        swiss_pair_generator()
     elif players_choice == 3:
-        print(number_players())
-    elif players_choice == 4:
-        delete_players()
+        start_game()
     else:
         print("\n*** Mauvais choix. Veuillez entrer encore une fois")
-        sleep(1)
+        sleep(2)
+        start_tournament()
 
 
 def generate_players(choice):
     if choice == 1:
         check = 0
         number = number_players()
-        while (check < (4-number)):
+        while (check < (1-number)):
             clear()
             print("########  Créer joueur ########\n")
             first_name = input("Prénom: ")
@@ -60,7 +85,6 @@ def generate_players(choice):
                     check -= 1
             check = check + 1
             sleep(1)
-            clear()
 
 
 def clear():

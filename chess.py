@@ -5,4 +5,5 @@ def main():
     start_game()
 
 
-main()
+if __name__ == "__main__":
+    main()
