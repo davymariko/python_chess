@@ -1,10 +1,10 @@
 class Tournoi:
-    def __init__(self, name, venue, date, tournee, players, description):
+    def __init__(self, name, venue, date, tours, tournee, players, description):
 
         self.name = name
         self.venue = venue
         self.date = date
-        self.tours = 4
+        self.tours = tours
         self.tournee = tournee
         self.players = players
         self.description = description

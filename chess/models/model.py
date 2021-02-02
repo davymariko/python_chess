@@ -39,8 +39,7 @@ def number_players():
 def check_duplicates(table, player_info):
     check = 0
     for player in table.all():
-        if (player['first_name'] == player_info['first_name'] and
-                player['last_name'] == player_info['last_name']):
+        if (player['id'] == player_info['id']):
             print("\n**** Ce joueur existe déjà\n")
             check += 1
             break
@@ -50,3 +49,12 @@ def check_duplicates(table, player_info):
 
 def swiss_pair_generator():
     print("Paires générées pour ce tour: ")
+    input("")
+
+
+def launch_tournament():
+    pass
+
+
+def play_record():
+    pass
