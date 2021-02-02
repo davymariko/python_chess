@@ -46,17 +46,14 @@ def start_tournament():
     print(f"Nom du tournoi: {tournament_name}")
     print(f"Lieu: {venue}")
     print(f"Date du tournoi: {tournament_date}")
-    print("\n1. Charger liste des joueurs existants\n2. Générer des paires\
-        \n3. Retour au menu principal")
+    print("\n1. Lancer le tournoi\n2. Retour au menu principal")
     players_choice = int(input("\n>>> "))
     if players_choice == 1:
         clear()
-        see_players()
-        input("")
-    elif players_choice == 2:
-        clear()
         swiss_pair_generator()
-    elif players_choice == 3:
+    elif players_choice == 2:
+        print("En sortant de ce tournoi vous l'annulez")
+        input("")
         start_game()
     else:
         print("\n*** Mauvais choix. Veuillez entrer encore une fois")
@@ -68,21 +65,27 @@ def generate_players(choice):
     if choice == 1:
         check = 0
         number = number_players()
-        while (check < (1-number)):
+        while (check < (2-number)):
             clear()
+            remaining_seat = number_players()
             print("########  Créer joueur ########\n")
+            print(f"Place restant: {2-remaining_seat}\n")
             first_name = input("Prénom: ")
             last_name = input("Nom: ")
             birth_date = input("Date de naissance (Format: jj/mm/aaaa): ")
             gender = input("Sexe(M ou F): ")
             score = 0
-            verify = input("Taper 1+Entrer pour confirmer: ")
+            verify = input("1. Confirmer\n2. Refaire\n3. Retour\n>>> ")
             if verify == '1':
                 player = Player(
                     first_name, last_name, birth_date, gender, score)
                 result = save_player(player.record)
                 if result == 1:
                     check -= 1
+            elif verify == '2':
+                generate_players(1)
+            elif verify == '3':
+                start_tournament()
             check = check + 1
             sleep(1)
 
