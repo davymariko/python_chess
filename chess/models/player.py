@@ -5,6 +5,8 @@ class Player():
         self.date = birth_date
         self.gender = gender
         self.score = score
+        self.id = (first_name[0].lower() + last_name.lower()+"_" +
+                      birth_date.replace("/", ""))
 
     # def is_valid(self):
     #     message = ""
@@ -14,6 +16,7 @@ class Player():
     def record(self):
 
         return {
+                    'id': self.id,
                     'first_name': self.first_name,
                     'last_name': self.last_name,
                     'birth_date': self.date,
