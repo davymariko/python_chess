@@ -1,8 +1,8 @@
-from chess.controller.controller import start_game
+from chess.controller.controller import start
 
 
 def main():
-    start_game()
+    start()
 
 
 if __name__ == "__main__":

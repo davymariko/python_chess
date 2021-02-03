@@ -1,35 +1,41 @@
-from os import system, name
+from chess.view.view import clear
 from time import sleep
+from chess.view.view import start_game
 from chess.models.model import Player
-from chess.models.model import (save_player, see_players, number_players,
-                                delete_all_players, players_list)
+from chess.export.database import delete_all_players
+from chess.models.model import (save_player, see_players, number_players, players_list)
 
 
-def start_game():
-    clear()
-    print("######## Bienvenue ########\n")
-    print("1. Commencer un tournoi\n2. Voir joueurs inscrits\
-        \n3. Nombre de joueurs inscrits\n4. Effacer tous les joueurs\
-        \n5. Rapport\n6. Quitter")
-    game_choice = int(input(("\n>>> ")))
-    if game_choice == 1:
-        start_tournament()
-    elif game_choice == 2:
+def start():
+    check = 0
+    while check < 1:
         clear()
-        see_players()
-        input("")
-        start_game()
-    elif game_choice == 3:
-        clear()
-        print(f'Nombre de joueurs inscrits: {number_players()}')
-        input("")
-        start_game()
-    elif game_choice == 4:
-        delete_all_players()
-        clear()
-        print("Tous les joueurs ont été effacés")
-        input("")
-        start_game()
+        game_choice = start_game()
+        if game_choice == 1:
+            start_tournament()
+        elif game_choice == 2:
+            clear()
+            see_players()
+            input("")
+        elif game_choice == 3:
+            clear()
+            print(f'Nombre de joueurs inscrits: {number_players()}')
+            input("")
+        elif game_choice == 4:
+            delete_all_players()
+            clear()
+            print("Tous les joueurs ont été effacés")
+            input("")
+        elif game_choice == 5:
+            clear()
+            print("Rapport")
+            input("")
+        elif game_choice == 6:
+            print("\n\n ---- A bientot ----")
+            check = 1
+        else:
+            print("\n\n**** Mauvais choix, reessayer")
+            input("")
 
 
 def start_tournament():
@@ -85,6 +91,7 @@ def generate_players(choice):
                     check -= 1
             elif verify == '2':
                 generate_players(1)
+                check -= 1
             elif verify == '3':
                 start_game()
             check = check + 1
@@ -105,12 +112,3 @@ def generate_pairs():
             print("========================")
             pairing += 1
         input("")
-
-
-def clear():
-    # for windows
-    if name == 'nt':
-        _ = system('cls')
-    # for mac and linux(here, os.name is 'posix')
-    else:
-        _ = system('clear')
