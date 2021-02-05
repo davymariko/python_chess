@@ -3,5 +3,7 @@ database/db.json
 chess/models/__pycache__/
 chess/controller/__pycache__/
 chess/view/__pycache__/
-chess/export/__pycache__/database.cpython-38.pyc
+chess/export/__pycache__/
+chess/errors/__pycache__/
 .vscode
+test.py
