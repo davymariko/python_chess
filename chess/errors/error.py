@@ -40,12 +40,12 @@ def date_tournament_is_valid(date_given):
         except Exception:
             print("Date incorrect")
     else:
-        print("\n***** Respectez le format (dd/mm/yyyy)")
+        print("\n***** Date: respectez le format (dd/mm/yyyy)")
 
 
 def gender_is_valid(gender):
-    gender = gender.lower()
-    if gender == "f" or gender == "h":
+    if gender == "F" or gender == "M":
         return 0
     else:
+        print("\n*** Format pour sexe à respecter (M ou F)")
         return 1

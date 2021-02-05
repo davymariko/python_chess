@@ -1,20 +1,21 @@
 from tinydb import TinyDB
-import pprint
-from time import sleep
+from chess.errors.error import (birth_date_is_valid, gender_is_valid)
 
 
 class Player():
-    def __init__(self, first_name, last_name, birth_date, gender, score):
-        self.first_name = first_name
-        self.last_name = last_name
-        self.date = birth_date
-        self.gender = gender
-        self.score = score
+    def __init__(self, first_name, last_name, birth_date, gender, ranking):
+        self.first_name = first_name.capitalize()
+        self.last_name = last_name.capitalize()
+        self.birth_date = birth_date
+        self.gender = gender.upper()
+        self.ranking = ranking
         self.id = (first_name[0].lower() + last_name.lower()+"_" + birth_date.replace("/", ""))
 
-    # def is_valid(self):
-    #     message = ""
-    #     test_dat = self.score
+    def is_valid(self):
+        if gender_is_valid(self.gender) == 0 and birth_date_is_valid(self.birth_date) == 0:
+            return 0
+        else:
+            return 1
 
     @property
     def record(self):
@@ -23,9 +24,9 @@ class Player():
                     'id': self.id,
                     'first_name': self.first_name,
                     'last_name': self.last_name,
-                    'birth_date': self.date,
+                    'birth_date': self.birth_date,
                     'gender': self.gender,
-                    'score': self.score
+                    'ranking': self.ranking
                 }
 
 
@@ -45,63 +46,12 @@ class Tournoi:
         print("Hello")
 
 
-def save_player(player_dict):
-    database = TinyDB('database/db.json')
-    players_table = database.table('players')
-    result = check_duplicates(players_table, player_dict)
-    if result == 1:
-        print("réessayer avec un autre joueur")
-        sleep(2)
-    else:
-        players_table.insert(player_dict)
-
-    return result
-
-
-def players_list():
-    database = TinyDB('database/db.json')
-    players_table = database.table('players')
-
-    return players_table.all()
-
-
-def see_players():
-    database = TinyDB('database/db.json')
-    players_table = database.table('players')
-    for play in players_table.all():
-        print("\n-------------")
-        pprint.pprint(play)
-
-
-def delete_all_players():
-    database = TinyDB('database/db.json')
-    players_table = database.table('players')
-    players_table.truncate()
-
-
 # def delete_player():
 #     database = TinyDB('database/db.json')
 #     # players_table = database.table('players')
 #     id = input(("Entrer l'id du joueur à effacer: "))
 #     database.remove(where('id') == id)
 #     print("Le joueur {id} a été effacé")
-
-
-def number_players():
-    database = TinyDB('database/db.json')
-    players_table = database.table('players')
-    return len(players_table.all())
-
-
-def check_duplicates(table, player_info):
-    check = 0
-    for player in table.all():
-        if (player['id'] == player_info['id']):
-            print("\n**** Ce joueur existe déjà\n")
-            check += 1
-            break
-
-    return check
 
 
 def swiss_pair_generator():
