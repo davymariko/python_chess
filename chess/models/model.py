@@ -1,5 +1,5 @@
 from tinydb import TinyDB
-from chess.errors.error import (birth_date_is_valid, gender_is_valid)
+from chess.errors.error import (birth_date_is_valid, date_tournament_is_valid, gender_is_valid, ranking_is_valid)
 
 
 class Player():
@@ -12,10 +12,14 @@ class Player():
         self.id = (first_name[0].lower() + last_name.lower()+"_" + birth_date.replace("/", ""))
 
     def is_valid(self):
-        if gender_is_valid(self.gender) == 0 and birth_date_is_valid(self.birth_date) == 0:
-            return 0
-        else:
-            return 1
+        result = 0
+        result = gender_is_valid(self.gender)
+        result = birth_date_is_valid(self.birth_date)
+        result = ranking_is_valid(self.ranking)
+
+        input("")
+        
+        return result
 
     @property
     def record(self):
@@ -41,17 +45,19 @@ class Tournoi:
         self.players = players
         self.description = description
 
+    
+    def is_valid(self):
+        result = 0
+        result = date_tournament_is_valid(self.date)
+
+        input("")
+        
+        return result
+
+
     @property
     def define_time(self):
         print("Hello")
-
-
-# def delete_player():
-#     database = TinyDB('database/db.json')
-#     # players_table = database.table('players')
-#     id = input(("Entrer l'id du joueur à effacer: "))
-#     database.remove(where('id') == id)
-#     print("Le joueur {id} a été effacé")
 
 
 def swiss_pair_generator():

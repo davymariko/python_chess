@@ -1,6 +1,6 @@
 from time import sleep
-from chess.view.view import clear
-from chess.view.view import (start_game, print_players, print_players_number, start_tournament)
+from chess.view.view import (clear, game_start, print_players, print_players_number, start_tournament)
+from chess.errors.error import wrong_choice
 from chess.models.model import Player
 from chess.export.database import (save_player, delete_all_players, players_number, players_list)
 
@@ -9,7 +9,7 @@ def start():
     check = 0
     while check < 1:
         clear()
-        start_game()
+        game_start()
         try:
             game_choice = input(("\n>>> "))
             if game_choice == "":
@@ -20,30 +20,36 @@ def start():
             game_choice = 999
 
         if game_choice == 1:
-            tournament()
+            check_tournament = 0
+            while check_tournament < 1:
+                if tournament() == 0:
+                    break
+                else:
+                    pass
         elif game_choice == 2:
-            clear()
-            print_players(players_list())
+            print("Aucun tournoi à reprendre")
             input("")
         elif game_choice == 3:
             clear()
+            print_players(players_list())
+        elif game_choice == 4:
+            clear()
             print_players_number()
             input("")
-        elif game_choice == 4:
+        elif game_choice == 5:
             delete_all_players()
             input("")
-        elif game_choice == 5:
+        elif game_choice == 6:
             clear()
             print("Rapport")
             input("")
-        elif game_choice == 6:
+        elif game_choice == 7:
             print("\n\n ---- A bientot ----")
             check = 1
             sleep(2)
             clear()
         else:
-            print("\n\n**** Mauvais choix, reessayer")
-            input("")
+            wrong_choice()
 
 
 def tournament():
@@ -55,7 +61,10 @@ def tournament():
     tournament_tours = input("Tours du tournoi: ")
     description = input("Description: ")
     tournament_info = [tournament_name, venue, tournament_date, tournament_tours, description]
-    print("\n**** Place à la création des joueurs")
+    if players_exist == 1:
+        print("\n**** Place à la création des joueurs")
+    else:
+        print("\n**** Y a déjà 8 joueurs inscrits")
     sleep(2)
     result = generate_players()
     if result == 0:
@@ -64,7 +73,7 @@ def tournament():
     start_tournament(tournament_info)
     players_choice = 999
     if players_number() == 8:
-        print("\n1. Lancer le tournoi\n2. Retour au menu principal")
+        print("\n1. Lancer le tournoi\n2. Voir les joeurs inscrits\n3. Retour au menu principal")
         players_choice = int(input("\n>>> "))
     else:
         print("\n1. Continuer à inscrire des joueurs\n2. Retour au menu principal")
@@ -73,16 +82,17 @@ def tournament():
     if players_choice == 1 and players_number() == 8:
         clear()
         generate_pairs()
-    elif players_choice == 1:
+    elif players_choice == 1 and players_number() < 8:
         generate_players()
     elif players_choice == 2:
-        print("En sortant de ce tournoi vous l'annulez")
+        print("\nEn sortant de ce tournoi vous l'annulez")
         input("")
-        start_game()
     else:
-        print("\n*** Mauvais choix. Veuillez entrer encore une fois")
-        sleep(2)
-        tournament()
+        wrong_choice()
+        sleep(1)
+        return 1
+
+    return 0
 
 
 def generate_players():
@@ -96,12 +106,12 @@ def generate_players():
         first_name = input("Prénom: ")
         last_name = input("Nom: ")
         birth_date = input("Date de naissance (Format: jj/mm/aaaa): ")
+        ranking = input("Classement: ")
         gender = input("Sexe(M ou F): ")
-        score = 0
         verify = input("\n\n1. Confirmer\n2. Refaire\n3. Retour\n>>> ")
         if verify == '1':
             player = Player(
-                first_name, last_name, birth_date, gender, score)
+                first_name, last_name, birth_date, gender, ranking)
             valid = player.is_valid()
             if valid == 0:
                 result = save_player(player.record)
@@ -133,13 +143,21 @@ def generate_pairs():
         input("")
 
 
+def resume_tournament():
+    print("Pas de tournoi à reprendre")
+
+
 def players_exist():
     number = players_number()
-    if number > 0:
+    if number == 8:
         return 0
     else:
         return 1
 
 
 def played_together():
+    pass
+
+
+def enter_score():
     pass

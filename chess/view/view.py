@@ -1,13 +1,11 @@
 from os import system, name
-import pprint
 from chess.export.database import players_number
 
 
-def start_game():
+def game_start():
     print("######## Bienvenue ########\n")
-    print("1. Commencer un tournoi\n2. Voir joueurs inscrits\
-        \n3. Nombre de joueurs inscrits\n4. Effacer tous les joueurs\
-        \n5. Rapport\n6. Quitter")
+    print("1. Commencer un tournoi\n2. Reprendre le dernier tournoi\n3. Voir joueurs déjà inscrits\
+        \n4. Nombre de joueurs inscrits\n5. Effacer tous les joueurs\n6. Rapport\n7. Quitter")
 
 
 def start_tournament(info):
@@ -19,14 +17,34 @@ def start_tournament(info):
 
 
 def print_players(players_list):
-    number = 1
-    print("Liste des joueurs\n==================")
-    print("   Nom\t\t\t\tDate de Naissance\tSexe\tClassement\
-        \n--------------------------------------------------------------------------")
-    for play in players_list:
-        whole_name = play['first_name'] + " " + play['last_name']
-        print(f"{number}. {whole_name:<20s}\t\t{play['birth_date']}\t\t{play['gender']}\t{play['ranking']}")
-        number += 1
+    check = 0
+    while check < 1:
+        clear()
+        print("1. Par ordre croissant (Nom)\n2. Par ordre croissant (Classement)\
+        \n3. Par ordre décroissant (Nom)\n4. Par ordre décroissant (Classement)\n5. Retour")
+        order_choice = input("\n>>> ")
+        sorted_dict = []
+        if order_choice == "1":
+            sorted_dict = sorted(players_list, key=lambda players_list: players_list.get('last_name', {}))
+        elif order_choice == "2":
+            sorted_dict = sorted(players_list, key=lambda players_list: players_list.get('ranking', {}))
+        elif order_choice == "3":
+            sorted_dict = sorted(players_list, key=lambda players_list: players_list.get('last_name', {}), reverse=True)
+        elif order_choice == "4":
+            sorted_dict = sorted(players_list, key=lambda players_list: players_list.get('ranking', {}), reverse=True)
+        elif order_choice == "5":
+            break
+        else:
+            print("*** Mauvaix choix")
+        number = 1
+        print("Liste des joueurs\n==================")
+        print("   Nom\t\t\t\tDate de Naissance\tSexe\tClassement\
+            \n--------------------------------------------------------------------------")
+        for play in sorted_dict:
+            whole_name = play['last_name'] + " " + play['first_name']
+            print(f"{number}. {whole_name:<20s}\t\t{play['birth_date']}\t\t{play['gender']}\t{play['ranking']}")
+            number += 1
+        input("")
 
 
 def print_players_number():

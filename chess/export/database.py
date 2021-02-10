@@ -2,14 +2,15 @@ from tinydb import TinyDB
 
 
 def initiate_player_table():
-    database = TinyDB('database/db.json')
+    database = TinyDB('database/players.json')
     table = database.table('players')
 
     return table
 
 
-def initiate_game_table():
-    pass
+# def initiate_game_table():
+#     database = TinyDB('database/db.json')
+#     table = database.table('tournament')
 
 
 def initiate_tournament_table():
@@ -29,16 +30,13 @@ def save_player(player_dict):
 
 
 def players_list():
-    database = TinyDB('database/db.json')
-    players_table = database.table('players')
 
-    return players_table.all()
+    return initiate_player_table().all()
 
 
 def players_number():
-    database = TinyDB('database/db.json')
-    players_table = database.table('players')
-    return len(players_table.all())
+    
+    return len(initiate_player_table())
 
 
 def delete_all_players():

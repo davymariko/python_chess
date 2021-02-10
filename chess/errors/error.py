@@ -9,13 +9,13 @@ def birth_date_is_valid(date_given):
                 datetime(int(date_given[2]), int(date_given[1]), int(date_given[0]))
                 return 0
             else:
-                print("\n***** Respectez le format (dd/mm/yyyy)")
+                print("\n*** Date: Respectez le format (dd/mm/yyyy)")
         except ValueError:
-            print("\n**** Date incorrect")
+            print("\n*** Date incorrect")
         except Exception:
-            print("\n**** Date incorrect")
+            print("\n*** Date incorrect")
     else:
-        print("\n***** Respectez le format (dd/mm/yyyy)")
+        print("\n*** Respectez le format (dd/mm/yyyy)")
 
     return 1
 
@@ -30,17 +30,20 @@ def date_tournament_is_valid(date_given):
         try:
             if len(date_given[2]) == 4:
                 date_valid = datetime(int(date_given[2]), int(date_given[1]), int(date_given[0]))
-                print(date_valid)
                 if today_date > date_valid:
                     print("Vous avez mis une date antérieure")
+                else:
+                    return 0
             else:
-                print("\n***** Respecter le format (dd/mm/yyyy)")
+                print("\n*** Date: Respecter le format (jj/mm/aaaa)")
         except ValueError:
-            print("Date incorrect")
+            print("Date incorrecte")
         except Exception:
-            print("Date incorrect")
+            print("Date incorrecte")
     else:
-        print("\n***** Date: respectez le format (dd/mm/yyyy)")
+        print("\n*** Date: respectez le format (jj/mm/aaaa)")
+
+    return 1
 
 
 def gender_is_valid(gender):
@@ -49,3 +52,25 @@ def gender_is_valid(gender):
     else:
         print("\n*** Format pour sexe à respecter (M ou F)")
         return 1
+
+
+def ranking_is_valid(ranking):
+    try:
+        ranking_int = int(ranking)
+        if ranking_int in range(0, 8):
+            return 0
+        else:
+            print("\n*** Classement hors interval(1-8)")
+    except:
+        print("\n*** Le classement doit être un chiffre naturel")
+
+    return 1
+
+
+def name_is_valid(name):
+    print("Le nom est pas valide")
+
+
+def wrong_choice():
+    print("\n**** Mauvais choix, reessayer")
+    input("")
