@@ -60,6 +60,11 @@ class Tournoi:
         print("Hello")
 
 
+class match:
+    def __init__(self, players):
+        self.players = players
+
+
 def swiss_pair_generator():
     print("Paires générées pour ce tour: ")
     input("")
