@@ -16,9 +16,8 @@ class Player():
         result = gender_is_valid(self.gender)
         result = birth_date_is_valid(self.birth_date)
         result = ranking_is_valid(self.ranking)
-
         input("")
-        
+
         return result
 
     @property
@@ -45,15 +44,12 @@ class Tournoi:
         self.players = players
         self.description = description
 
-    
     def is_valid(self):
         result = 0
         result = date_tournament_is_valid(self.date)
-
         input("")
-        
-        return result
 
+        return result
 
     @property
     def define_time(self):

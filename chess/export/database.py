@@ -35,7 +35,7 @@ def players_list():
 
 
 def players_number():
-    
+
     return len(initiate_player_table())
 
 
