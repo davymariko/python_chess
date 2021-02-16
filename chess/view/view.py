@@ -59,10 +59,20 @@ def print_pairs(total_players, players, round):
     print("Paires généreées pour le Round {1}\n")
     while pairing < (total_players/2):
         versus = pairing+int(total_players/2)
-        print(f"\n{sorted_dict[pairing]['first_name']} {sorted_dict[pairing]['last_name']} vs {sorted_dict[versus]['first_name']} {sorted_dict[versus]['last_name']}\n")
+        print(f"\n{sorted_dict[pairing]['first_name']} {sorted_dict[pairing]['last_name']} vs \
+{sorted_dict[versus]['first_name']} {sorted_dict[versus]['last_name']}\n")
         print("----------------------")
         pairing += 1
     input("")
+
+
+def print_no_tournament():
+    print("Aucun tournoi à reprendre")
+
+
+def print_bye():
+    print("\n\n ---- A bientot ----")
+
 
 def clear():
     # for windows
