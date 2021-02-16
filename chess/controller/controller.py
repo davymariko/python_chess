@@ -1,5 +1,6 @@
 from time import sleep
-from chess.view.view import (clear, game_start, print_players, print_players_number, start_tournament, print_pairs)
+from chess.view.view import clear, game_start, print_players, print_players_number, \
+    start_tournament, print_pairs, print_no_tournament, print_bye
 from chess.errors.error import wrong_choice
 from chess.models.model import Player
 from chess.export.database import (save_player, delete_all_players, players_number, players_list)
@@ -27,7 +28,7 @@ def start():
                 else:
                     pass
         elif game_choice == 2:
-            print("Aucun tournoi à reprendre")
+            print_no_tournament()
             input("")
         elif game_choice == 3:
             clear()
@@ -44,7 +45,7 @@ def start():
             print("Rapport")
             input("")
         elif game_choice == 7:
-            print("\n\n ---- A bientot ----")
+            print_bye()
             check = 1
             sleep(2)
             clear()
@@ -129,7 +130,7 @@ def generate_players():
 
 def generate_pairs():
     total_players = players_number()
-    for round in range(1,3):
+    for round in range(1, 3):
         players = players_list()
         if round == 1:
             print_pairs(total_players, players, round)
@@ -137,7 +138,6 @@ def generate_pairs():
             clear()
             print(round)
             input("")
-
 
 
 # def generate_pairs():
@@ -154,11 +154,8 @@ def generate_pairs():
 #             print("----------------------")
 #             pairing += 1
 #         input("")
-
-
-
 def resume_tournament():
-    print("Pas de tournoi à reprendre")
+    print_no_tournament()
 
 
 def players_exist():

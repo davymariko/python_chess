@@ -46,13 +46,12 @@ def date_tournament_is_valid(date_given):
     return 1
 
 
-
 def date_format():
     date_time_str = '18/09/2018'
     try:
         datetime.strptime(date_time_str, "%d/%m/%Y")
         return True
-    except:
+    except Exception:
         return False
 
 
@@ -71,7 +70,7 @@ def ranking_is_valid(ranking):
             return 0
         else:
             print("\n*** Classement hors interval(1-8)")
-    except:
+    except Exception:
         print("\n*** Le classement doit être un chiffre naturel")
 
     return 1
@@ -84,5 +83,3 @@ def name_is_valid(name):
 def wrong_choice():
     print("\n**** Mauvais choix, reessayer")
     input("")
-
-
