@@ -1,5 +1,5 @@
 from time import sleep
-from chess.view.view import (clear, game_start, print_players, print_players_number, start_tournament)
+from chess.view.view import (clear, game_start, print_players, print_players_number, start_tournament, print_pairs)
 from chess.errors.error import wrong_choice
 from chess.models.model import Player
 from chess.export.database import (save_player, delete_all_players, players_number, players_list)
@@ -128,19 +128,33 @@ def generate_players():
 
 
 def generate_pairs():
-    round = 1
     total_players = players_number()
-    print("Paires généreées pour le Round {1}\n")
-    players = players_list()
-    if round == 1:
-        pairing = 0
-        while pairing < (total_players/2):
-            versus = pairing+int(total_players/2)
-            print(f"\n{players[pairing]['first_name']} {players[pairing]['last_name']}\
- vs {players[versus]['first_name']} {players[versus]['last_name']}\n")
-            print("----------------------")
-            pairing += 1
-        input("")
+    for round in range(1,3):
+        players = players_list()
+        if round == 1:
+            print_pairs(total_players, players, round)
+        else:
+            clear()
+            print(round)
+            input("")
+
+
+
+# def generate_pairs():
+#     round = 1
+#     total_players = players_number()
+#     print("Paires généreées pour le Round {1}\n")
+#     players = players_list()
+#     if round == 1:
+#         pairing = 0
+#         while pairing < (total_players/2):
+#             versus = pairing+int(total_players/2)
+#             print(f"\n{players[pairing]['first_name']} {players[pairing]['last_name']}\
+#  vs {players[versus]['first_name']} {players[versus]['last_name']}\n")
+#             print("----------------------")
+#             pairing += 1
+#         input("")
+
 
 
 def resume_tournament():

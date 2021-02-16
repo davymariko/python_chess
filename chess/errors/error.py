@@ -46,6 +46,16 @@ def date_tournament_is_valid(date_given):
     return 1
 
 
+
+def date_format():
+    date_time_str = '18/09/2018'
+    try:
+        datetime.strptime(date_time_str, "%d/%m/%Y")
+        return True
+    except:
+        return False
+
+
 def gender_is_valid(gender):
     if gender == "F" or gender == "M":
         return 0
@@ -74,3 +84,5 @@ def name_is_valid(name):
 def wrong_choice():
     print("\n**** Mauvais choix, reessayer")
     input("")
+
+
