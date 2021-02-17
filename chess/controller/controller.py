@@ -1,6 +1,7 @@
 from time import sleep
-from chess.view.view import clear, game_start, print_players, print_players_number, \
-    start_tournament, print_pairs, print_no_tournament, print_bye
+from chess.view.view import clear, game_start, print_players, print_players_number, start_tournament, \
+    print_pairs, print_no_tournament, print_bye, print_generate_players, print_players_complete, \
+    print_exit_tournament, print_create_players
 from chess.errors.error import wrong_choice
 from chess.models.model import Player
 from chess.export.database import (save_player, delete_all_players, players_number, players_list)
@@ -63,9 +64,9 @@ def tournament():
     description = input("Description: ")
     tournament_info = [tournament_name, venue, tournament_date, tournament_tours, description]
     if players_exist == 1:
-        print("\n**** Place à la création des joueurs")
+        print_generate_players()
     else:
-        print("\n**** Y a déjà 8 joueurs inscrits")
+        print_players_complete()
     sleep(2)
     result = generate_players()
     if result == 0:
@@ -86,7 +87,7 @@ def tournament():
     elif players_choice == 1 and players_number() < 8:
         generate_players()
     elif players_choice == 2:
-        print("\nEn sortant de ce tournoi vous l'annulez")
+        print_exit_tournament()
         input("")
     else:
         wrong_choice()
@@ -102,8 +103,7 @@ def generate_players():
     while (check < (8-number_of_players)):
         clear()
         taken_seats = players_number()
-        print("########  Créer joueur ########\n")
-        print(f"Place restant: {8-taken_seats}\n")
+        print_create_players(taken_seats)
         first_name = input("Prénom: ")
         last_name = input("Nom: ")
         birth_date = input("Date de naissance (Format: jj/mm/aaaa): ")

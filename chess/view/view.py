@@ -47,10 +47,6 @@ def print_players(players_list):
         input("")
 
 
-def print_players_number():
-    print(f"Nombre de joeurs inscrits: {players_number()}")
-
-
 def print_pairs(total_players, players, round):
     sorted_dict = []
     pairing = 0
@@ -66,12 +62,33 @@ def print_pairs(total_players, players, round):
     input("")
 
 
+def print_create_players(taken_seats):
+    print("########  Créer joueur ########\n")
+    print(f"Place restant: {8-taken_seats}\n")
+
+
+def print_players_number():
+    print(f"Nombre de joeurs inscrits: {players_number()}")
+
+
 def print_no_tournament():
     print("Aucun tournoi à reprendre")
 
 
 def print_bye():
     print("\n\n ---- A bientot ----")
+
+
+def print_players_complete():
+    print("\n**** Y a déjà 8 joueurs inscrits")
+
+
+def print_generate_players():
+    print("\n**** Place à la création des joueurs")
+
+
+def print_exit_tournament():
+    print("\nEn sortant de ce tournoi vous l'annulez")
 
 
 def clear():
