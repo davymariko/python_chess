@@ -47,19 +47,13 @@ def print_players(players_list):
         input("")
 
 
-def print_pairs(total_players, players, round):
-    sorted_dict = []
-    pairing = 0
-    sorted_dict = sorted(players, key=lambda players: players.get('ranking', {}), reverse=True)
-    print(sorted_dict)
-    print("Paires généreées pour le Round {1}\n")
-    while pairing < (total_players/2):
-        versus = pairing+int(total_players/2)
-        print(f"\n{sorted_dict[pairing]['first_name']} {sorted_dict[pairing]['last_name']} vs \
-{sorted_dict[versus]['first_name']} {sorted_dict[versus]['last_name']}\n")
+def print_pairs(pairs_list, current_tour):
+    print(f"Paires généreées pour le Round {current_tour}\n")
+    match = 1
+    for pair in pairs_list:
+        print(f"{match}. {pair[0]} vs {pair[1]}")
         print("----------------------")
-        pairing += 1
-    input("")
+        match += 1
 
 
 def print_create_players(taken_seats):
@@ -89,6 +83,11 @@ def print_generate_players():
 
 def print_exit_tournament():
     print("\nEn sortant de ce tournoi vous l'annulez")
+
+
+def print_enter_score():
+    print("\n*** Entrez les score des matchs de ce tour\n*** Entrer score par numéro/ordre des matchs\
+        \n*** Exemple format(1-1)\n")
 
 
 def clear():

@@ -1,7 +1,7 @@
 from time import sleep
 from chess.view.view import clear, game_start, print_players, print_players_number, start_tournament, \
     print_pairs, print_no_tournament, print_bye, print_generate_players, print_players_complete, \
-    print_exit_tournament, print_create_players
+    print_exit_tournament, print_create_players, print_enter_score
 from chess.errors.error import wrong_choice
 from chess.models.model import Player
 from chess.export.database import (save_player, delete_all_players, players_number, players_list)
@@ -130,14 +130,24 @@ def generate_players():
 
 def generate_pairs():
     total_players = players_number()
-    for round in range(1, 3):
-        players = players_list()
-        if round == 1:
-            print_pairs(total_players, players, round)
+    for current_round in range(1, 3):
+        pairs_list = []
+        pairing = 0
+        if current_round == 1:
+            sorted_dict = []
+            players = players_list()
+            sorted_dict = sorted(players, key=lambda players: players.get('ranking', {}), reverse=True)
         else:
-            clear()
-            print(round)
-            input("")
+            pass
+
+        while pairing < (total_players/2):
+            versus = pairing+int(total_players/2)
+            pairing += 1
+            pairs_list.append([sorted_dict[pairing]['first_name'], sorted_dict[versus]['first_name']])
+        print_pairs(pairs_list, current_round)
+        enter_score(pairs_list)
+        input("")
+        clear()
 
 
 # def generate_pairs():
@@ -170,5 +180,7 @@ def played_together():
     pass
 
 
-def enter_score():
-    pass
+def enter_score(pairs_list):
+    print_enter_score()
+    for match in range(1,len(pairs_list)+1):
+        score = input(f"Match {match}>>> ")

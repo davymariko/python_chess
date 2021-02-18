@@ -8,9 +8,11 @@ def initiate_player_table():
     return table
 
 
-# def initiate_game_table():
-#     database = TinyDB('database/db.json')
-#     table = database.table('tournament')
+def initiate_match_table():
+    database = TinyDB('database/matchs.json')
+    table = database.table('game')
+
+    return table
 
 
 def initiate_tournament_table():
@@ -27,6 +29,10 @@ def save_player(player_dict):
         players_table.insert(player_dict)
 
     return result
+
+
+def save_match(match_info):
+    pass
 
 
 def players_list():
