@@ -1,4 +1,3 @@
-database/db.json
 */__pycache__/
 chess/models/__pycache__/
 chess/controller/__pycache__/

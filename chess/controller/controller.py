@@ -149,7 +149,7 @@ def generate_pairs():
                     score_dict[match['players'][0]] += float(match['score'][0])
                 except Exception:
                     score_dict[match['players'][0]] = float(match['score'][0])
-                    
+
                 try:
                     score_dict[match['players'][1]] += float(match['score'][1])
                 except Exception:
@@ -201,5 +201,5 @@ def enter_score(pairs_list):
             return 1
         else:
             tour_scores.append([pairs_list[match-1], score.split("-")])
-    
+
     save_tours(tour_scores)
