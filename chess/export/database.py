@@ -33,17 +33,22 @@ def save_player(player_dict):
 
 def save_tours(match_info):
     match_table = initiate_tour_table()
-    match_dict = {
-        "players": match_info[0],
-        "score": match_info[1]
+    for match in match_info:
+        match_dict = {
+            "players": match[0],
+            "score": [float(match[1][0]), float(match[1][1])]
         }
-
-    match_table.insert(match_dict)
+        match_table.insert(match_dict)
 
 
 def players_list():
 
     return initiate_player_table().all()
+
+
+def matchs_list():
+
+    return initiate_tour_table().all()
 
 
 def players_number():

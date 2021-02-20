@@ -1,10 +1,11 @@
 from time import sleep
 from chess.view.view import clear, game_start, print_players, print_players_number, start_tournament, \
     print_pairs, print_no_tournament, print_bye, print_generate_players, print_players_complete, \
-    print_exit_tournament, print_create_players, print_enter_score, print_continue
-from chess.errors.error import wrong_choice
+    print_exit_tournament, print_create_players, print_enter_score, print_continue, print_wrong_score
+from chess.errors.error import wrong_choice, score_input
 from chess.models.model import Player
-from chess.export.database import (save_player, delete_all_players, players_number, players_list, save_tours)
+from chess.export.database import save_player, delete_all_players, players_number, players_list, save_tours, \
+    matchs_list
 
 
 def start():
@@ -141,13 +142,35 @@ def generate_pairs():
             sorted_dict = sorted(players, key=lambda players: players.get('ranking', {}), reverse=True)
         else:
             sorted_dict = []
+            matchs = matchs_list()
+            score_dict = {}
+            for match in matchs:
+                try:
+                    score_dict[match['players'][0]] += float(match['score'][0])
+                except Exception:
+                    score_dict[match['players'][0]] = float(match['score'][0])
+                    
+                try:
+                    score_dict[match['players'][1]] += float(match['score'][1])
+                except Exception:
+                    score_dict[match['players'][1]] = float(match['score'][1])
+            sorted_dict = sorted(score_dict.items(), key=lambda x: x[1], reverse=True)
+            input("")
 
         while pairing < (total_players/2):
             versus = pairing+int(total_players/2)
-            pairs_list.append([sorted_dict[pairing]['id'], sorted_dict[versus]['id']])
+            if current_round == 1:
+                pairs_list.append([sorted_dict[pairing]['id'], sorted_dict[versus]['id']])
+            else:
+                pairs_list.append([sorted_dict[pairing][0], sorted_dict[versus][0]])
             pairing += 1
-        print_pairs(pairs_list, current_round)
-        enter_score(pairs_list)
+        check = 0
+        while check < 1:
+            print_pairs(pairs_list, current_round)
+            if enter_score(pairs_list) == 1:
+                clear()
+            else:
+                break
         print_continue()
         clear()
 
@@ -170,6 +193,13 @@ def played_together():
 
 def enter_score(pairs_list):
     print_enter_score()
+    tour_scores = []
     for match in range(1, len(pairs_list)+1):
         score = input(f"Match {match}>>> ")
-        save_tours([pairs_list[match-1], score.split("-")])
+        if score_input(score) == 1:
+            print_wrong_score()
+            return 1
+        else:
+            tour_scores.append([pairs_list[match-1], score.split("-")])
+    
+    save_tours(tour_scores)

@@ -85,7 +85,7 @@ def wrong_choice():
     input("")
 
 
-def wrong_score_input(score_input):
+def score_input(score_input):
     try:
         if len(score_input.split("-")) == 2:
             if (float(score_input.split("-")[0]) in [0.0, 1.0, 0.5] and
