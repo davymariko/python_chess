@@ -5,5 +5,7 @@ chess/controller/__pycache__/
 chess/view/__pycache__/
 chess/export/__pycache__/
 chess/errors/__pycache__/
-.vscode
+.vscode/
 test.py
+flake-report/.DS_Store
+.DS_Store
