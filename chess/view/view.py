@@ -1,5 +1,5 @@
 from os import system, name
-from chess.export.database import players_number
+from chess.export.database import players_number, players_list
 
 
 def game_start():
@@ -17,6 +17,10 @@ def start_tournament(info):
 
 
 def print_players(players_list):
+    if len(players_list) == 0:
+        print("Y a aucun joueur inscrit")
+        input("")
+        return
     check = 0
     while check < 1:
         clear()
@@ -58,11 +62,15 @@ def print_pairs(pairs_list, current_tour):
 
 def print_create_players(taken_seats):
     print("########  Créer joueur ########\n")
-    print(f"Place restant: {8-taken_seats}\n")
+    print(f"Places restantes: {8-taken_seats}\n")
 
 
 def print_players_number():
     print(f"Nombre de joeurs inscrits: {players_number()}")
+
+
+def print_continue():
+    input("\n\nAppuer sur Entree pour continuer")
 
 
 def print_no_tournament():

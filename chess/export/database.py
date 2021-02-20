@@ -8,9 +8,9 @@ def initiate_player_table():
     return table
 
 
-def initiate_match_table():
-    database = TinyDB('database/matchs.json')
-    table = database.table('game')
+def initiate_tour_table():
+    database = TinyDB('database/tours.json')
+    table = database.table('tours')
 
     return table
 
@@ -31,8 +31,14 @@ def save_player(player_dict):
     return result
 
 
-def save_match(match_info):
-    pass
+def save_tours(match_info):
+    match_table = initiate_tour_table()
+    match_dict = {
+        "players": match_info[0],
+        "score": match_info[1]
+        }
+
+    match_table.insert(match_dict)
 
 
 def players_list():
@@ -60,3 +66,7 @@ def check_player_duplicates(table, player_info):
             break
 
     return check
+
+
+
+print(players_list())

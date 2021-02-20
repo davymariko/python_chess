@@ -1,10 +1,10 @@
 from time import sleep
 from chess.view.view import clear, game_start, print_players, print_players_number, start_tournament, \
     print_pairs, print_no_tournament, print_bye, print_generate_players, print_players_complete, \
-    print_exit_tournament, print_create_players, print_enter_score
+    print_exit_tournament, print_create_players, print_enter_score, print_continue
 from chess.errors.error import wrong_choice
 from chess.models.model import Player
-from chess.export.database import (save_player, delete_all_players, players_number, players_list)
+from chess.export.database import (save_player, delete_all_players, players_number, players_list, save_tours)
 
 
 def start():
@@ -30,21 +30,21 @@ def start():
                     pass
         elif game_choice == 2:
             print_no_tournament()
-            input("")
+            print_continue()
         elif game_choice == 3:
             clear()
             print_players(players_list())
         elif game_choice == 4:
             clear()
             print_players_number()
-            input("")
+            print_continue()
         elif game_choice == 5:
             delete_all_players()
-            input("")
+            print_continue()
         elif game_choice == 6:
             clear()
             print("Rapport")
-            input("")
+            print_continue()
         elif game_choice == 7:
             print_bye()
             check = 1
@@ -63,7 +63,7 @@ def tournament():
     tournament_tours = input("Tours du tournoi: ")
     description = input("Description: ")
     tournament_info = [tournament_name, venue, tournament_date, tournament_tours, description]
-    if players_exist == 1:
+    if players_exist() == 1:
         print_generate_players()
     else:
         print_players_complete()
@@ -78,7 +78,7 @@ def tournament():
         print("\n1. Lancer le tournoi\n2. Voir les joeurs inscrits\n3. Retour au menu principal")
         players_choice = int(input("\n>>> "))
     else:
-        print("\n1. Continuer à inscrire des joueurs\n2. Retour au menu principal")
+        print("\n1. Continuer à inscrire des joueurs\n2. Voir les joeurs inscrits\n3. Retour au menu principal")
         players_choice = int(input("\n>>> "))
 
     if players_choice == 1 and players_number() == 8:
@@ -87,8 +87,10 @@ def tournament():
     elif players_choice == 1 and players_number() < 8:
         generate_players()
     elif players_choice == 2:
+        print_players(players_list())
+    elif players_choice == 3:
         print_exit_tournament()
-        input("")
+        print_continue()
     else:
         wrong_choice()
         sleep(1)
@@ -130,7 +132,7 @@ def generate_players():
 
 def generate_pairs():
     total_players = players_number()
-    for current_round in range(1, 3):
+    for current_round in range(1, 4+1):
         pairs_list = []
         pairing = 0
         if current_round == 1:
@@ -138,15 +140,15 @@ def generate_pairs():
             players = players_list()
             sorted_dict = sorted(players, key=lambda players: players.get('ranking', {}), reverse=True)
         else:
-            pass
+            sorted_dict = []
 
         while pairing < (total_players/2):
             versus = pairing+int(total_players/2)
             pairing += 1
-            pairs_list.append([sorted_dict[pairing]['first_name'], sorted_dict[versus]['first_name']])
+            pairs_list.append([sorted_dict[pairing]['id'], sorted_dict[versus]['id']])
         print_pairs(pairs_list, current_round)
         enter_score(pairs_list)
-        input("")
+        print_continue()
         clear()
 
 
@@ -163,7 +165,7 @@ def generate_pairs():
 #  vs {players[versus]['first_name']} {players[versus]['last_name']}\n")
 #             print("----------------------")
 #             pairing += 1
-#         input("")
+#         print_continue()
 def resume_tournament():
     print_no_tournament()
 
@@ -182,5 +184,6 @@ def played_together():
 
 def enter_score(pairs_list):
     print_enter_score()
-    for match in range(1,len(pairs_list)+1):
+    for match in range(1, len(pairs_list)+1):
         score = input(f"Match {match}>>> ")
+        save_tours([pairs_list[match-1], score.split("-")])
