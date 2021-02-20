@@ -52,10 +52,14 @@ def print_players(players_list):
 
 
 def print_pairs(pairs_list, current_tour):
+    players = players_list()
     print(f"Paires généreées pour le Round {current_tour}\n")
     match = 1
     for pair in pairs_list:
-        print(f"{match}. {pair[0]} vs {pair[1]}")
+        print(pair)
+        player1 = [[x['last_name'], x['first_name']] for x in players if x['id'] == pair[0]]
+        player2 = [[x['last_name'], x['first_name']] for x in players if x['id'] == pair[1]]
+        print(f"{match}. {player1[0][0]} {player1[0][1]} vs  {player2[0][0]}  {player2[0][1]}")
         print("----------------------")
         match += 1
 

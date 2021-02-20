@@ -144,28 +144,14 @@ def generate_pairs():
 
         while pairing < (total_players/2):
             versus = pairing+int(total_players/2)
-            pairing += 1
             pairs_list.append([sorted_dict[pairing]['id'], sorted_dict[versus]['id']])
+            pairing += 1
         print_pairs(pairs_list, current_round)
         enter_score(pairs_list)
         print_continue()
         clear()
 
 
-# def generate_pairs():
-#     round = 1
-#     total_players = players_number()
-#     print("Paires généreées pour le Round {1}\n")
-#     players = players_list()
-#     if round == 1:
-#         pairing = 0
-#         while pairing < (total_players/2):
-#             versus = pairing+int(total_players/2)
-#             print(f"\n{players[pairing]['first_name']} {players[pairing]['last_name']}\
-#  vs {players[versus]['first_name']} {players[versus]['last_name']}\n")
-#             print("----------------------")
-#             pairing += 1
-#         print_continue()
 def resume_tournament():
     print_no_tournament()
 

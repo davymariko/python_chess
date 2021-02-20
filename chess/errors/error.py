@@ -83,3 +83,15 @@ def name_is_valid(name):
 def wrong_choice():
     print("\n**** Mauvais choix, reessayer")
     input("")
+
+
+def wrong_score_input(score_input):
+    try:
+        if len(score_input.split("-")) == 2:
+            if (float(score_input.split("-")[0]) in [0.0, 1.0, 0.5] and
+                    float(score_input.split("-")[0]) in [0.0, 1.0, 0.5]):
+                return 0
+        else:
+            return 1
+    except Exception:
+        return 1

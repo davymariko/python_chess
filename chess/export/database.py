@@ -66,7 +66,3 @@ def check_player_duplicates(table, player_info):
             break
 
     return check
-
-
-
-print(players_list())
