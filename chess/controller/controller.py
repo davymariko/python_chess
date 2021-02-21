@@ -142,19 +142,8 @@ def generate_pairs():
             sorted_dict = sorted(players, key=lambda players: players.get('ranking', {}), reverse=True)
         else:
             sorted_dict = []
-            matchs = matchs_list()
-            score_dict = {}
-            for match in matchs:
-                try:
-                    score_dict[match['players'][0]] += float(match['score'][0])
-                except Exception:
-                    score_dict[match['players'][0]] = float(match['score'][0])
-
-                try:
-                    score_dict[match['players'][1]] += float(match['score'][1])
-                except Exception:
-                    score_dict[match['players'][1]] = float(match['score'][1])
-            sorted_dict = sorted(score_dict.items(), key=lambda x: x[1], reverse=True)
+            total_score_per_player = score_per_player()
+            sorted_dict = sorted(total_score_per_player.items(), key=lambda x: x[1], reverse=True)
             input("")
 
         while pairing < (total_players/2):
@@ -173,6 +162,28 @@ def generate_pairs():
                 break
         print_continue()
         clear()
+
+
+def score_per_player():
+    matchs = matchs_list()
+    score_dict = {}
+    for match in matchs:
+        try:
+            score_dict[match['players'][0]] += float(match['score'][0])
+        except Exception:
+            score_dict[match['players'][0]] = float(match['score'][0])
+
+        try:
+            score_dict[match['players'][1]] += float(match['score'][1])
+        except Exception:
+            score_dict[match['players'][1]] = float(match['score'][1])
+
+    return score_dict
+
+
+def order_by_score_ranking(total_score_per_player):
+    # [x['ranking'] for x in players if x['id'] == pair[0]]
+    pass
 
 
 def resume_tournament():

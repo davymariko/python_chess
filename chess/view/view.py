@@ -29,13 +29,13 @@ def print_players(players_list):
         order_choice = input("\n>>> ")
         sorted_dict = []
         if order_choice == "1":
-            sorted_dict = sorted(players_list, key=lambda players_list: players_list.get('last_name', {}))
+            sorted_dict = sorted(players_list, key=lambda players: players.get('last_name', {}))
         elif order_choice == "2":
-            sorted_dict = sorted(players_list, key=lambda players_list: players_list.get('ranking', {}))
+            sorted_dict = sorted(players_list, key=lambda players: players.get('ranking', {}))
         elif order_choice == "3":
-            sorted_dict = sorted(players_list, key=lambda players_list: players_list.get('last_name', {}), reverse=True)
+            sorted_dict = sorted(players_list, key=lambda players: players.get('last_name', {}), reverse=True)
         elif order_choice == "4":
-            sorted_dict = sorted(players_list, key=lambda players_list: players_list.get('ranking', {}), reverse=True)
+            sorted_dict = sorted(players_list, key=lambda players: players.get('ranking', {}), reverse=True)
         elif order_choice == "5":
             break
         else:
