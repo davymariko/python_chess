@@ -96,6 +96,10 @@ def print_exit_tournament():
     print("\nEn sortant de ce tournoi vous l'annulez")
 
 
+def print_end_tournament():
+    print("\n*** C'est la fin du tournoi")
+
+
 def print_wrong_score():
     print("\n*** Mauvaise inscription du score. Format (1-0)")
 
