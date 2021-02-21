@@ -10,7 +10,7 @@ def initiate_player_table():
 
 def initiate_tour_table():
     database = TinyDB('database/tours.json')
-    table = database.table('tours')
+    table = database.table('game')
 
     return table
 
@@ -60,6 +60,11 @@ def delete_all_players():
     players_table = initiate_player_table()
     players_table.truncate()
     print("\nTous les joueurs ont été effacés")
+
+
+def delete_all_matchs():
+    tours_table = initiate_tour_table()
+    tours_table.truncate()
 
 
 def check_player_duplicates(table, player_info):
