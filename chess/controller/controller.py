@@ -1,11 +1,12 @@
 from time import sleep
 from chess.view.view import clear, game_start, print_players, print_players_number, start_tournament, \
     print_pairs, print_no_tournament, print_bye, print_generate_players, print_players_complete, \
-    print_exit_tournament, print_create_players, print_enter_score, print_continue, print_wrong_score
+    print_exit_tournament, print_create_players, print_enter_score, print_continue, print_wrong_score, \
+        print_end_tournament
 from chess.errors.error import wrong_choice, score_input
 from chess.models.model import Player
 from chess.export.database import save_player, delete_all_players, players_number, players_list, save_tours, \
-    matchs_list
+    matchs_list, delete_all_matchs
 
 
 def start():
@@ -57,6 +58,7 @@ def start():
 
 def tournament():
     clear()
+    delete_all_matchs()
     print("######## Commencer le Tournoi ########\n")
     tournament_name = input("Nom du tournoi: ")
     venue = input("Lieu: ")
@@ -85,6 +87,8 @@ def tournament():
     if players_choice == 1 and players_number() == 8:
         clear()
         generate_pairs()
+        print_end_tournament()
+        input("")
     elif players_choice == 1 and players_number() < 8:
         generate_players()
     elif players_choice == 2:
@@ -136,22 +140,20 @@ def generate_pairs():
     for current_round in range(1, 4+1):
         pairs_list = []
         pairing = 0
+        sorted_players = []
         if current_round == 1:
-            sorted_dict = []
             players = players_list()
-            sorted_dict = sorted(players, key=lambda players: players.get('ranking', {}), reverse=True)
+            sorted_players = sorted(players, key=lambda players: players.get('ranking', {}), reverse=True)
         else:
-            sorted_dict = []
             total_score_per_player = score_per_player()
-            sorted_dict = sorted(total_score_per_player.items(), key=lambda x: x[1], reverse=True)
-            input("")
+            sorted_players = order_by_score_ranking(total_score_per_player)
 
         while pairing < (total_players/2):
             versus = pairing+int(total_players/2)
             if current_round == 1:
-                pairs_list.append([sorted_dict[pairing]['id'], sorted_dict[versus]['id']])
+                pairs_list.append([sorted_players[pairing]['id'], sorted_players[versus]['id']])
             else:
-                pairs_list.append([sorted_dict[pairing][0], sorted_dict[versus][0]])
+                pairs_list.append([sorted_players[pairing][0], sorted_players[versus][0]])
             pairing += 1
         check = 0
         while check < 1:
@@ -182,8 +184,13 @@ def score_per_player():
 
 
 def order_by_score_ranking(total_score_per_player):
-    # [x['ranking'] for x in players if x['id'] == pair[0]]
-    pass
+    list_player_by_stats = []
+    for player_id in total_score_per_player:
+        ranking = [x['ranking'] for x in players_list() if x['id'] == player_id]
+        list_player_by_stats.append([player_id, total_score_per_player[player_id], ranking[0]])
+    players_sorted_by_stats = sorted(list_player_by_stats, key=lambda x: (x[1], x[2]), reverse=True)
+
+    return players_sorted_by_stats
 
 
 def resume_tournament():
