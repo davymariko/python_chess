@@ -2,7 +2,7 @@ from os import system, name
 from chess.export.database import players_number, players_list
 
 
-def game_start():
+def print_game_start():
     print("######## Bienvenue ########\n")
     print("1. Commencer un tournoi\n2. Reprendre le dernier tournoi\n3. Voir joueurs déjà inscrits\
         \n4. Nombre de joueurs inscrits\n5. Effacer tous les joueurs\n6. Rapport\n7. Quitter")
@@ -73,7 +73,7 @@ def print_players_number():
 
 
 def print_continue():
-    input("\n\nAppuer sur Entree pour continuer")
+    input("\n\nAppuyer sur Entree pour continuer")
 
 
 def print_no_tournament():
@@ -90,6 +90,10 @@ def print_players_complete():
 
 def print_generate_players():
     print("\n**** Place à la création des joueurs")
+
+
+def print_start_tournament():
+    print("######## Commencer le Tournoi ########\n")
 
 
 def print_exit_tournament():
