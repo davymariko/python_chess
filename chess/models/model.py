@@ -1,5 +1,6 @@
 from tinydb import TinyDB
-from chess.errors.error import (birth_date_is_valid, date_tournament_is_valid, gender_is_valid, ranking_is_valid)
+from chess.errors.error import birth_date_is_valid, date_tournament_is_valid, \
+    gender_is_valid, ranking_is_valid, text_is_alpha
 
 
 class Player():
@@ -19,6 +20,8 @@ class Player():
             result += 1
         if ranking_is_valid(self.ranking):
             result += 1
+        if text_is_alpha(self.first_name) and text_is_alpha(self.last_name):
+            result += 1
 
         return result
 
@@ -36,8 +39,10 @@ class Tournoi:
 
     def is_valid(self):
         result = 0
-        result = date_tournament_is_valid(self.date)
-        input("")
+        if text_is_alpha(self.name) and text_is_alpha(self.venue):
+            result += 1
+        if date_tournament_is_valid(self.date):
+            result += 1
 
         return result
 

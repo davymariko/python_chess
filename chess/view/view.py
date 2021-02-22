@@ -105,7 +105,7 @@ def print_end_tournament():
 
 
 def print_wrong_score():
-    print("\n*** Mauvaise inscription du score. Format (1-0)")
+    print("\n*** Mauvaise inscription du score. Format (1-0)\n*** Les scores acceptés : 0, 1, 0.5")
 
 
 def print_enter_score():

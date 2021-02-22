@@ -59,7 +59,7 @@ def start():
 def tournament():
     clear()
     delete_all_matchs()
-    # delete_all_players()
+    delete_all_players()
     print_start_tournament()
     tournament_name = input("Nom du tournoi: ")
     venue = input("Lieu: ")
@@ -120,7 +120,7 @@ def generate_players():
         if verify == '1':
             player = Player(
                 first_name, last_name, birth_date, gender, ranking)
-            if player.is_valid() == 3:
+            if player.is_valid() == 4:
                 player_record = {
                     'id': player.id,
                     'first_name': player.first_name,
@@ -181,6 +181,7 @@ def generate_pairs():
         while check < 1:
             print_pairs(pairs_list, current_round)
             if enter_score(pairs_list) == 1:
+                input("")
                 clear()
             else:
                 break

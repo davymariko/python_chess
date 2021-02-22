@@ -76,8 +76,11 @@ def ranking_is_valid(ranking):
     return False
 
 
-def name_is_valid(name):
-    print("Le nom est pas valide")
+def text_is_alpha(string_text):
+    if string_text.isalpha():
+        return True
+    else:
+        return False
 
 
 def wrong_choice():
@@ -88,9 +91,14 @@ def wrong_choice():
 def score_input(score_input):
     try:
         if len(score_input.split("-")) == 2:
-            if (float(score_input.split("-")[0]) in [0.0, 1.0, 0.5] and
-                    float(score_input.split("-")[0]) in [0.0, 1.0, 0.5]):
+            if float(score_input.split("-")[0]) == 1.0 and float(score_input.split("-")[1]) == 0.0:
                 return 0
+            elif float(score_input.split("-")[0]) == 0.0 and float(score_input.split("-")[1]) == 1.0:
+                return 0
+            elif float(score_input.split("-")[0]) == 0.5 and float(score_input.split("-")[1]) == 0.5:
+                return 0
+            else:
+                return 1
         else:
             return 1
     except Exception:
