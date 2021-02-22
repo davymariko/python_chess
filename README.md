@@ -47,3 +47,7 @@ Le nom de flake8_rapport peut être changé.
 Ce code présente aucune violation aux règles comme celà peut être vu dans la page html générée par la commande
 
 ![alt text](https://github.com/davymariko/python_chess/blob/main/donnees/flake8.JPG)
+
+
+# Auteur
+Le programme a été conçu et maintenu par [Davy Nimbona](https://www.linkedin.com/in/davy-nimbona/)
