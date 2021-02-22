@@ -35,3 +35,15 @@ Vous devrez avoir un menu d'acceuil semblable à celui ci
 
 
 ![alt text](https://github.com/davymariko/python_chess/blob/main/donnees/terminal.JPG)
+
+# Pep8, flake8
+Le code respecte les règles du pep8 avec la limite de longueur par ligne à 119.
+Un rapport flake 8 est présent dans le dossier [flake8_rapport]() et un autre rapport peut être généré en éxécutant la commande
+```bash
+flake8 --format=html --htmldir=flake8_rapport
+```
+
+Le nom de flake8_rapport peut être changé.
+Ce code présente aucune violation aux règles comme celà peut être vu dans la page html générée par la commande
+
+![alt text](https://github.com/davymariko/python_chess/blob/main/donnees/flake8.JPG)
