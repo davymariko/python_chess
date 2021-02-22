@@ -14,6 +14,7 @@ Le défi est de réaliser un programme en python qui peut commencer un tournoi, 
 
 # Environnement
 * L'installation de [Python 3](https://www.python.org/downloads/) est nécessaire pour la réalisation de ce projet
+* Après l'installation de Python3, l'installation de [pip](https://pypi.org/project/pip/) est recommandé
 * L'outil de dévelopement utilisé et recommandé: [Visual Studio Code (Vscode)](https://code.visualstudio.com/)
 * Le programme peut être executé sur Linux, Mac et Windows
 * Base de donnée: [TinyDB](https://tinydb.readthedocs.io/en/latest/)
