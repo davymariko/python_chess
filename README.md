@@ -1,27 +1,6 @@
 # Tournoi de jeu d'échecs
 Dans ce projet, un potentiel client souhaite avoir un programme pour pouvoir des tournois de jeu d'échecspouvant être lancé depuis la console (termminale).
 
-<!-- Table de contenu -->
-<details open="open">
-  <summary>Table de contenu</summary>
-  <ol>
-    <li>
-      <a href="#about-the-project"Description</a>
-      <ul>
-        <li><a href="#built-with">Built With</a></li>
-      </ul>
-    </li>
-    <li>
-      <a href="#getting-started">Getting Started</a>
-      <ul>
-        <li><a href="#prerequisites">Prerequisites</a></li>
-        <li><a href="#installation">Installation</a></li>
-      </ul>
-    </li>
-    <li><a href="#contact">Contact</a></li>
-    <li><a href="#acknowledgements">Acknowledgements</a></li>
-  </ol>
-</details>
 # Tournoi de jeu d'échecs
 Dans ce projet, un potentiel client souhaite avoir un programme pour pouvoir gérer des tournois de jeu d'échecs hors ligne.
 Le logiciel doit pouvoir être lancé depuis la console (termminale).
