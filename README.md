@@ -31,3 +31,5 @@ Pour lancer le programme lancer le fichier
 ```bash
 python -m chess
 ```
+Vous devrez avoir un menu d'acceuil pareil
+![alt text](donnees/termninal.JPG)
