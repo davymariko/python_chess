@@ -158,10 +158,8 @@ def generate_pairs():
         else:
             total_score_per_player = score_per_player()
             sorted_players = order_by_score_ranking(total_score_per_player)
-            print(sorted_players)
             unmatched_players = [player[0] for player in sorted_players]
             for player_index in range(0, total_players-1):
-                print(unmatched_players)
                 versus = player_index + 1
                 player1 = sorted_players[player_index][0]
                 player2 = sorted_players[versus][0]
