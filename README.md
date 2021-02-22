@@ -21,7 +21,7 @@ Le défi est de réaliser un programme en python qui peut commencer un tournoi, 
 # Installation
 1. Cloner, en premier, le projet sur votre bureau ou environnement local
 2. Installer les pre-requis pour ce projet en lançant la commande:
-`
+`bash
 pip install -r requirements.txt
 `
 
