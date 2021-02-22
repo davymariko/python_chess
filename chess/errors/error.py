@@ -7,7 +7,7 @@ def birth_date_is_valid(date_given):
         try:
             if len(date_given[2]) == 4:
                 datetime(int(date_given[2]), int(date_given[1]), int(date_given[0]))
-                return 0
+                return True
             else:
                 print("\n*** Date: Respectez le format (dd/mm/yyyy)")
         except ValueError:
@@ -17,7 +17,7 @@ def birth_date_is_valid(date_given):
     else:
         print("\n*** Respectez le format (dd/mm/yyyy)")
 
-    return 1
+    return False
 
 
 def date_tournament_is_valid(date_given):
@@ -33,7 +33,7 @@ def date_tournament_is_valid(date_given):
                 if today_date > date_valid:
                     print("Vous avez mis une date antérieure")
                 else:
-                    return 0
+                    return True
             else:
                 print("\n*** Date: Respecter le format (jj/mm/aaaa)")
         except ValueError:
@@ -43,7 +43,7 @@ def date_tournament_is_valid(date_given):
     else:
         print("\n*** Date: respectez le format (jj/mm/aaaa)")
 
-    return 1
+    return False
 
 
 def date_format():
@@ -57,23 +57,23 @@ def date_format():
 
 def gender_is_valid(gender):
     if gender == "F" or gender == "M":
-        return 0
+        return True
     else:
         print("\n*** Format pour sexe à respecter (M ou F)")
-        return 1
+        return False
 
 
 def ranking_is_valid(ranking):
     try:
         ranking_int = int(ranking)
         if ranking_int in range(0, 8):
-            return 0
+            return True
         else:
             print("\n*** Classement hors interval(1-8)")
     except Exception:
         print("\n*** Le classement doit être un chiffre naturel")
 
-    return 1
+    return False
 
 
 def name_is_valid(name):

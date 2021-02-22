@@ -9,28 +9,18 @@ class Player():
         self.birth_date = birth_date
         self.gender = gender.upper()
         self.ranking = ranking
-        self.id = (first_name[0].lower() + last_name.lower()+"_" + birth_date.replace("/", ""))
+        self.id = (first_name[0].lower() + last_name.lower() + "_" + birth_date.replace("/", ""))
 
     def is_valid(self):
         result = 0
-        result = gender_is_valid(self.gender)
-        result = birth_date_is_valid(self.birth_date)
-        result = ranking_is_valid(self.ranking)
-        input("")
+        if gender_is_valid(self.gender):
+            result += 1
+        if birth_date_is_valid(self.birth_date):
+            result += 1
+        if ranking_is_valid(self.ranking):
+            result += 1
 
         return result
-
-    @property
-    def record(self):
-
-        return {
-                    'id': self.id,
-                    'first_name': self.first_name,
-                    'last_name': self.last_name,
-                    'birth_date': self.birth_date,
-                    'gender': self.gender,
-                    'ranking': self.ranking
-                }
 
 
 class Tournoi:
@@ -59,6 +49,11 @@ class Tournoi:
 class match:
     def __init__(self, players):
         self.players = players
+
+
+class tour:
+    def __init__(self, tour_number, matchs):
+        self.tour_number = tour_number
 
 
 def swiss_pair_generator():
