@@ -59,7 +59,6 @@ def players_number():
 def delete_all_players():
     players_table = initiate_player_table()
     players_table.truncate()
-    print("\nTous les joueurs ont été effacés")
 
 
 def delete_all_matchs():
