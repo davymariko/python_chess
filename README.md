@@ -31,7 +31,7 @@ Pour lancer le programme lancer le fichier
 ```bash
 python -m chess
 ```
-Vous devrez avoir un menu d'acceuil pareil
+Vous devrez avoir un menu d'acceuil semblable à celui ci
 
 
 ![alt text](https://github.com/davymariko/python_chess/blob/main/donnees/terminal.JPG)
