@@ -3,7 +3,8 @@ Dans ce projet, un potentiel client souhaite avoir un programme pour pouvoir gé
 Le logiciel doit pouvoir être lancé depuis la console (termminal).
 
 # Description 
-Le défi est de réaliser un programme en python qui peut commencer un tournoi, accepter des entrées de joeurs et sur le tournoi en général, générer des paires, inscrire le score ainsi que de consulter le rapport sur des tournois passées
+Le défi est de réaliser un programme en python qui peut commencer un tournoi, accepter des entrées de joeurs et sur le tournoi en général, générer des paires, inscrire le score ainsi que de consulter le rapport sur des tournois passées.
+Les paires doivent être générées selon le système de [tournoi suisse](https://fr.wikipedia.org/wiki/Syst%C3%A8me_suisse)
 
 ## Etapes
 1. Créer un nouveau tournoi.
@@ -47,3 +48,7 @@ Le nom de flake8_rapport peut être changé.
 Ce code présente aucune violation aux règles comme celà peut être vu dans la page html générée par la commande
 
 ![alt text](https://github.com/davymariko/python_chess/blob/main/donnees/flake8.JPG)
+
+
+# Auteur
+Le programme a été conçu et maintenu par [Davy Nimbona](https://www.linkedin.com/in/davy-nimbona/)
