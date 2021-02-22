@@ -3,7 +3,7 @@ Dans ce projet, un potentiel client souhaite avoir un programme pour pouvoir gé
 Le logiciel doit pouvoir être lancé depuis la console (termminal).
 
 # Description 
-Le défi est de réaliser un programme en python qui peut commencer un tournoi, accepter des entrées de joeurs et sur le tournoi en général, générer des paires et inscrire le score
+Le défi est de réaliser un programme en python qui peut commencer un tournoi, accepter des entrées de joeurs et sur le tournoi en général, générer des paires, inscrire le score ainsi que de consulter le rapport sur des tournois passées
 
 ## Etapes
 1. Créer un nouveau tournoi.
