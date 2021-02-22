@@ -159,9 +159,25 @@ def generate_pairs():
             total_score_per_player = score_per_player()
             sorted_players = order_by_score_ranking(total_score_per_player)
             print(sorted_players)
-            for player_index in range(0, total_players-1, 2):
+            unmatched_players = [player[0] for player in sorted_players]
+            for player_index in range(0, total_players-1):
+                print(unmatched_players)
                 versus = player_index + 1
-                pairs_list.append([sorted_players[player_index][0], sorted_players[versus][0]])
+                player1 = sorted_players[player_index][0]
+                player2 = sorted_players[versus][0]
+                check_pair = 0
+                while check_pair < 1:
+                    if player1 in unmatched_players:
+                        if player2 in unmatched_players and not_played_with(list_of_played_with(), player1, player2):
+                            pairs_list.append([player1, player2])
+                            unmatched_players.remove(player1)
+                            unmatched_players.remove(player2)
+                            check_pair = 1
+                        else:
+                            versus += 1
+                            player2 = sorted_players[versus][0]
+                    else:
+                        check_pair = 1
 
         check = 0
         while check < 1:
@@ -172,7 +188,6 @@ def generate_pairs():
                 break
         print_continue()
         clear()
-        list_of_played_with()
 
 
 def score_per_player():
@@ -202,11 +217,11 @@ def order_by_score_ranking(total_score_per_player):
     return players_sorted_by_stats
 
 
-def check_if_played_with(played_with_dict, player1, player2):
-    if player2 in played_with_dict[player1]:
-        return 1
+def not_played_with(played_with_dict, player1, player2):
+    if player2 not in played_with_dict[player1]:
+        return True
     else:
-        return 0
+        return False
 
 
 def resume_tournament():
