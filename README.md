@@ -32,4 +32,4 @@ Pour lancer le programme lancer le fichier
 python -m chess
 ```
 Vous devrez avoir un menu d'acceuil pareil
-![alt text](https://github.com/davymariko/python_chess/tree/main/donnees/termninal.JPG)
+![alt text](https://github.com/davymariko/python_chess/blob/main/donnees/terminal.JPG)
