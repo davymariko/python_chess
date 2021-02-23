@@ -24,7 +24,6 @@ def date_tournament_is_valid(date_given):
     date_given = date_given.split("/")
     today = date.today()
     today = str(today).split('-')
-    print(today)
     today_date = datetime(int(today[0]), int(today[1]), int(today[2]))
     if (len(date_given)) == 3:
         try:
@@ -63,23 +62,11 @@ def gender_is_valid(gender):
         return False
 
 
-def ranking_is_valid(ranking):
-    try:
-        ranking_int = int(ranking)
-        if ranking_int in range(0, 8):
-            return True
-        else:
-            print("\n*** Classement hors interval(1-8)")
-    except Exception:
-        print("\n*** Le classement doit être un chiffre naturel")
-
-    return False
-
-
 def text_is_alpha(string_text):
-    if string_text.isalpha():
+    if len(string_text) > 0 and string_text.isalpha():
         return True
     else:
+        print("\n*** Le champ de nom ou lieu doit être completé et contenir que des alphabets")
         return False
 
 
@@ -103,3 +90,11 @@ def score_input(score_input):
             return 1
     except Exception:
         return 1
+
+
+def number_is_valid(number):
+    if isinstance(number, int):
+        return True
+    else:
+        print("\n**** Classement et tours doivent etre des nombres entiers")
+        return False

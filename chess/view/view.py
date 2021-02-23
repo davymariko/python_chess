@@ -4,14 +4,13 @@ from chess.export.database import players_number, players_list
 
 def print_game_start():
     print("######## Bienvenue ########\n")
-    print("1. Commencer un tournoi\n2. Reprendre le dernier tournoi\n3. Voir joueurs déjà inscrits\
-        \n4. Nombre de joueurs inscrits\n5. Effacer tous les joueurs\n6. Rapport\n7. Quitter")
+    print("1. Commencer un tournoi\n2. Rapport des tournois passés\n3. Quitter")
 
 
-def start_tournament(info):
+def print_tournament_pre_launch(info):
     print("######## Nouveau Tournoi ########\n")
-    print(f"Nom du tournoi: {info[0]}\nLieu: {info[1]}\nDate du tournoi: {info[2]}\
-        \nTours: {info[3]}\nNombre de joueurs: {players_number()}\nDescription: {info[4]}")
+    print(f"Nom du tournoi: {info.name}\nLieu: {info.venue}\nDate du tournoi: {info.date}\
+        \nTours: {info.rounds}\nNombre de joueurs: {players_number()}\nDescription: {info.description}")
 
     return
 
@@ -68,16 +67,8 @@ def print_create_players(taken_seats):
     print(f"Places restantes: {8-taken_seats}\n")
 
 
-def print_players_number():
-    print(f"Nombre de joeurs inscrits: {players_number()}")
-
-
 def print_continue():
     input("\n\nAppuyer sur Entree pour continuer")
-
-
-def print_no_tournament():
-    print("Aucun tournoi à reprendre")
 
 
 def print_bye():
@@ -111,6 +102,14 @@ def print_wrong_score():
 def print_enter_score():
     print("\n*** Entrez les score des matchs de ce tour\n*** Entrer score par numéro/ordre des matchs\
         \n*** Exemple format(1-1)\n")
+
+
+def print_tournament_ready():
+    print("\n1. Lancer le tournoi\n2. Voir les joeurs inscrits\n3. Retour au menu principal")
+
+
+def print_tournament_not_ready():
+    print("\n1. Continuer à inscrire des joueurs\n2. Voir les joeurs inscrits\n3. Retour au menu principal")
 
 
 def clear():

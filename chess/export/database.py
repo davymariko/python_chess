@@ -8,7 +8,7 @@ def initiate_player_table():
     return table
 
 
-def initiate_tour_table():
+def initiate_round_table():
     database = TinyDB('database/tours.json')
     table = database.table('game')
 
@@ -16,7 +16,10 @@ def initiate_tour_table():
 
 
 def initiate_tournament_table():
-    pass
+    database = TinyDB('database/tournaments.json')
+    table = database.table('tournament')
+
+    return table
 
 
 def save_player(player_dict):
@@ -31,14 +34,26 @@ def save_player(player_dict):
     return result
 
 
-def save_tours(match_info):
-    match_table = initiate_tour_table()
+def save_rounds(match_info):
+    match_table = initiate_round_table()
     for match in match_info:
         match_dict = {
             "players": match[0],
             "score": [float(match[1][0]), float(match[1][1])]
         }
         match_table.insert(match_dict)
+
+
+def save_tournament(tournament):
+    tournament_info = {
+        'name': tournament.name,
+        'venue': tournament.venue,
+        'date': tournament.date,
+        'rounds': tournament.tours,
+        'round_matchs': tournament.round_matchs
+    }
+    tournament_table = initiate_tournament_table()
+    tournament_table.insert(tournament_info)
 
 
 def players_list():
@@ -48,7 +63,12 @@ def players_list():
 
 def matchs_list():
 
-    return initiate_tour_table().all()
+    return initiate_round_table().all()
+
+
+def tournaments_list():
+
+    return initiate_tournament_table()
 
 
 def players_number():
@@ -62,8 +82,8 @@ def delete_all_players():
 
 
 def delete_all_matchs():
-    tours_table = initiate_tour_table()
-    tours_table.truncate()
+    rounds_table = initiate_round_table()
+    rounds_table.truncate()
 
 
 def check_player_duplicates(table, player_info):

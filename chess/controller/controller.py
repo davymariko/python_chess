@@ -1,12 +1,12 @@
 from time import sleep
-from chess.view.view import clear, print_game_start, print_players, print_players_number, start_tournament, \
-    print_pairs, print_no_tournament, print_bye, print_generate_players, print_exit_tournament, \
+from chess.view.view import clear, print_game_start, print_players, print_tournament_pre_launch, \
+    print_pairs, print_bye, print_generate_players, print_exit_tournament, \
     print_create_players, print_enter_score, print_continue, print_wrong_score, print_end_tournament, \
-    print_start_tournament
+    print_start_tournament, print_tournament_ready, print_tournament_not_ready
 from chess.errors.error import wrong_choice, score_input
-from chess.models.model import Player
-from chess.export.database import save_player, delete_all_players, players_number, players_list, save_tours, \
-    matchs_list, delete_all_matchs
+from chess.models.model import Player, Tournament, Round
+from chess.export.database import save_player, delete_all_players, players_number, players_list, save_rounds, \
+    matchs_list, delete_all_matchs, tournaments_list
 
 
 def start():
@@ -31,23 +31,10 @@ def start():
                 else:
                     pass
         elif game_choice == 2:
-            print_no_tournament()
+            clear()
+            tournament_report()
             print_continue()
         elif game_choice == 3:
-            clear()
-            print_players(players_list())
-        elif game_choice == 4:
-            clear()
-            print_players_number()
-            print_continue()
-        elif game_choice == 5:
-            delete_all_players()
-            print_continue()
-        elif game_choice == 6:
-            clear()
-            print("Rapport")
-            print_continue()
-        elif game_choice == 7:
             print_bye()
             check = 1
             sleep(2)
@@ -57,56 +44,76 @@ def start():
 
 
 def tournament():
-    clear()
+    """La fonction qui lance le tournoi.
+    Dans cette function on appelle les differentes fonctions du jeu d'echecs:
+    Creer un tournoi, joueurs, generer des paires, entrer les scores et sauvegarder le tournoi
+    """
     delete_all_matchs()
     delete_all_players()
-    print_start_tournament()
-    tournament_name = input("Nom du tournoi: ")
-    venue = input("Lieu: ")
-    tournament_date = input("Date du tournoi (Format: jj/mm/aaaa): ")
-    tournament_tours = input("Tours du tournoi: ")
-    description = input("Description: ")
-    tournament_info = [tournament_name, venue, tournament_date, tournament_tours, description]
-    print_generate_players()
-    sleep(2)
+    check = 0
+    while check < 1:
+        clear()
+        print_start_tournament()
+        tournament_name = input("Nom du tournoi: ")
+        venue = input("Lieu: ")
+        tournament_date = input("Date du tournoi (Format: jj/mm/aaaa): ")
+        rounds_number = input("Nombre de tours du tournoi: ")
+        if len(rounds_number) == 0:
+            rounds_number = 4
+        description = input("Description: ")
+        tournament = Tournament(tournament_name, venue, tournament_date, rounds_number, (), [], description)
+        if tournament.is_valid() == 3:
+            check = 1
+        else:
+            input("")
+
     result = generate_players()
     if result == 0:
         pass
     clear()
-    start_tournament(tournament_info)
-    try:
-        if players_number() == 8:
-            print("\n1. Lancer le tournoi\n2. Voir les joeurs inscrits\n3. Retour au menu principal")
-            players_choice = int(input("\n>>> "))
-        else:
-            print("\n1. Continuer à inscrire des joueurs\n2. Voir les joeurs inscrits\n3. Retour au menu principal")
-            players_choice = int(input("\n>>> "))
-    except Exception:
-        players_choice = 999
 
-    if players_choice == 1 and players_number() == 8:
+    check_launch = 0
+    while check_launch < 1:
         clear()
-        generate_pairs()
-        print_end_tournament()
-        input("")
-    elif players_choice == 1 and players_number() < 8:
-        generate_players()
-    elif players_choice == 2:
-        print_players(players_list())
-    elif players_choice == 3:
-        print_exit_tournament()
-        print_continue()
-    else:
-        wrong_choice()
-        sleep(1)
-        return 1
+        print_tournament_pre_launch(tournament)
+        try:
+            if players_number() == 8:
+                print_tournament_ready()
+                players_choice = int(input("\n>>> "))
+            else:
+                print_tournament_not_ready()
+                players_choice = int(input("\n>>> "))
+        except Exception:
+            players_choice = 999
+
+        if players_choice == 1 and players_number() == 8:
+            clear()
+            generate_pairs()
+            print_end_tournament()
+            check_launch = 1
+            input("")
+        elif players_choice == 1 and players_number() < 8:
+            generate_players()
+        elif players_choice == 2:
+            print_players(players_list())
+        elif players_choice == 3:
+            check_launch = 1
+            print_exit_tournament()
+            print_continue()
+        else:
+            wrong_choice()
+            sleep(1)
+        
 
     return 0
 
 
 def generate_players():
+    print_generate_players()
+    sleep(2)
     check = 0
     number_of_players = players_number()
+    players_list = []
     while (check < (8-number_of_players)):
         clear()
         taken_seats = players_number()
@@ -131,6 +138,7 @@ def generate_players():
                 }
                 result = save_player(player_record)
                 if result == 1:
+                    players_list.append(player)
                     check -= 1
             else:
                 check -= 1
@@ -223,10 +231,6 @@ def not_played_with(played_with_dict, player1, player2):
         return False
 
 
-def resume_tournament():
-    print_no_tournament()
-
-
 # def players_exist():
 #     number = players_number()
 #     if number == 8:
@@ -254,13 +258,23 @@ def list_of_played_with():
 
 def enter_score(pairs_list):
     print_enter_score()
-    tour_scores = []
+    round_scores = []
     for match in range(1, len(pairs_list)+1):
         score = input(f"Match {match}>>> ")
         if score_input(score) == 1:
             print_wrong_score()
             return 1
         else:
-            tour_scores.append([pairs_list[match-1], score.split("-")])
+            round_scores.append([pairs_list[match-1], score.split("-")])
 
-    save_tours(tour_scores)
+    save_rounds(round_scores)
+
+
+def tournament_report():
+    clear()
+    print("Rapport")
+    try:
+        for tournament in tournaments_list():
+            print_players(tournament["players"])
+    except Exception:
+        print("Aucun tournoi à voir")
