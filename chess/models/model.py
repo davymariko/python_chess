@@ -26,7 +26,7 @@ class Player():
                 result += 1
             if text_is_alpha(self.first_name) and text_is_alpha(self.last_name):
                 result += 1
-        except:
+        except Exception:
             pass
 
         return result

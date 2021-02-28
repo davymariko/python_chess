@@ -4,7 +4,7 @@ from chess.view.view import clear, print_game_start, print_players, print_tourna
     print_create_players, print_enter_score, print_continue, print_wrong_score, print_end_tournament, \
     print_start_tournament, print_tournament_ready, print_tournament_not_ready
 from chess.errors.error import wrong_choice, score_input
-from chess.models.model import Player, Tournament, Round
+from chess.models.model import Player, Tournament
 from chess.export.database import save_player, delete_all_players, players_number, players_list, save_rounds, \
     matchs_list, delete_all_matchs, tournaments_list
 
@@ -103,7 +103,6 @@ def tournament():
         else:
             wrong_choice()
             sleep(1)
-        
 
     return 0
 
