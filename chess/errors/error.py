@@ -55,10 +55,10 @@ def date_format():
 
 
 def gender_is_valid(gender):
-    if gender == "F" or gender == "M":
+    if gender == "F" or gender == "H":
         return True
     else:
-        print("\n*** Format pour sexe à respecter (M ou F)")
+        print("\n*** Format pour sexe à respecter (H ou F)")
         return False
 
 
@@ -98,3 +98,14 @@ def number_is_valid(number):
     else:
         print("\n**** Classement et tours doivent etre des nombres entiers")
         return False
+
+
+def check_player_duplicates(players_list, player_info):
+    result = 0
+    for player in players_list:
+        if (player.id == player_info.id):
+            print("\n**** Ce joueur existe déjà\n")
+            result += 1
+            break
+
+    return result

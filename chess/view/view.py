@@ -50,21 +50,25 @@ def print_players(players_list):
         input("")
 
 
-def print_pairs(pairs_list, current_tour):
-    players = players_list()
+def print_pairs(pairs_list, players_list, current_tour):
+    input("")
     print(f"Paires généreées pour le Round {current_tour}\n")
     match = 1
     for pair in pairs_list:
-        player1 = [[x['last_name'], x['first_name']] for x in players if x['id'] == pair[0]]
-        player2 = [[x['last_name'], x['first_name']] for x in players if x['id'] == pair[1]]
+        player1 = [[x['last_name'], x['first_name']] for x in players_list if x['id'] == pair[0]]
+        player2 = [[x['last_name'], x['first_name']] for x in players_list if x['id'] == pair[1]]
         print(f"{match}. {player1[0][0]} {player1[0][1]} vs  {player2[0][0]}  {player2[0][1]}")
         print("----------------------")
         match += 1
 
 
-def print_create_players(taken_seats):
+def print_player_to_rank(player):
+    print(f"{player.last_name} {player.last_name}, {player.gender}")
+
+
+def print_create_players(untaken_seats):
     print("########  Créer joueur ########\n")
-    print(f"Places restantes: {8-taken_seats}\n")
+    print(f"Places restantes: {untaken_seats}\n")
 
 
 def print_continue():
@@ -101,7 +105,7 @@ def print_wrong_score():
 
 def print_enter_score():
     print("\n*** Entrez les score des matchs de ce tour\n*** Entrer score par numéro/ordre des matchs\
-        \n*** Exemple format(1-1)\n")
+        \n*** Exemple format(1-0)\n")
 
 
 def print_tournament_ready():
