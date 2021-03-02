@@ -1,16 +1,10 @@
 from os import system, name
-from chess.export.database import players_number, players_list
-
-
-def print_game_start():
-    print("######## Bienvenue ########\n")
-    print("1. Commencer un tournoi\n2. Rapport des tournois passés\n3. Quitter")
 
 
 def print_tournament_pre_launch(info):
     print("######## Nouveau Tournoi ########\n")
     print(f"Nom du tournoi: {info.name}\nLieu: {info.venue}\nDate du tournoi: {info.date}\
-        \nTours: {info.rounds}\nNombre de joueurs: {players_number()}\nDescription: {info.description}")
+        \nTours: {info.rounds}\nNombre de joueurs: {len(info.players)}\nDescription: {info.description}")
 
     return
 
@@ -51,7 +45,6 @@ def print_players(players_list):
 
 
 def print_pairs(pairs_list, players_list, current_tour):
-    input("")
     print(f"Paires généreées pour le Round {current_tour}\n")
     match = 1
     for pair in pairs_list:
@@ -63,7 +56,8 @@ def print_pairs(pairs_list, players_list, current_tour):
 
 
 def print_player_to_rank(player):
-    print(f"{player.last_name} {player.last_name}, {player.gender}")
+    print(f"Nom: {player.last_name}\nPremon: {player.first_name}\nSexe: {player.gender}\
+        \nDate de naissance: {player.birth_date}")
 
 
 def print_create_players(untaken_seats):
@@ -71,49 +65,31 @@ def print_create_players(untaken_seats):
     print(f"Places restantes: {untaken_seats}\n")
 
 
+# print preview 102
 def print_continue():
     input("\n\nAppuyer sur Entree pour continuer")
 
 
-def print_bye():
-    print("\n\n ---- A bientot ----")
+def print_preview(message_number):
+    messages_dict = {
+        101: "######## Bienvenue ########\
+        \n1. Commencer un tournoi\n2. Reprende un tournoi existant\n3. Rapport des tournois passés\n4. Quitter",
+        102: "\n\nAppuyer sur Entree pour continuer",
+        103: "\n\n ---- A bientot ----",
+        104: "\n**** Place à la création des joueurs",
+        105: "######## Commencer le Tournoi ########\n",
+        106: "\n*** C'est la fin du tournoi",
+        107: "\n*** Mauvaise inscription du score. Format (1-0)\n*** Les scores acceptés : 0, 1, 0.5",
+        108: "\n*** Entrez les score des matchs de ce tour\
+            \n*** Entrer score par numéro/ordre des matchs\n*** Exemple format(1-0)\n",
+        109: "\n1. Lancer le tournoi\n2. Voir les joeurs inscrits\n3. Retour au menu principal",
+        110: "\n1. Continuer à inscrire des joueurs\n2. Voir les joeurs inscrits\n3. Retour au menu principal",
+        111: "\n**** Mauvais choix, reessayer",
+        112: "######## Nouveau Classement ########\n",
+        113: "\n**** Classement et tours doivent etre des nombres entiers"
+    }
 
-
-def print_players_complete():
-    print("\n**** Y a déjà 8 joueurs inscrits")
-
-
-def print_generate_players():
-    print("\n**** Place à la création des joueurs")
-
-
-def print_start_tournament():
-    print("######## Commencer le Tournoi ########\n")
-
-
-def print_exit_tournament():
-    print("\nEn sortant de ce tournoi vous l'annulez")
-
-
-def print_end_tournament():
-    print("\n*** C'est la fin du tournoi")
-
-
-def print_wrong_score():
-    print("\n*** Mauvaise inscription du score. Format (1-0)\n*** Les scores acceptés : 0, 1, 0.5")
-
-
-def print_enter_score():
-    print("\n*** Entrez les score des matchs de ce tour\n*** Entrer score par numéro/ordre des matchs\
-        \n*** Exemple format(1-0)\n")
-
-
-def print_tournament_ready():
-    print("\n1. Lancer le tournoi\n2. Voir les joeurs inscrits\n3. Retour au menu principal")
-
-
-def print_tournament_not_ready():
-    print("\n1. Continuer à inscrire des joueurs\n2. Voir les joeurs inscrits\n3. Retour au menu principal")
+    print(messages_dict[message_number])
 
 
 def clear():

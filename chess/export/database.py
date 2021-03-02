@@ -2,14 +2,14 @@ from tinydb import TinyDB
 
 
 def initiate_player_table():
-    database = TinyDB('database/players.json')
+    database = TinyDB('database/prehold.json')
     table = database.table('players')
 
     return table
 
 
 def initiate_round_table():
-    database = TinyDB('database/tours.json')
+    database = TinyDB('database/prehold.json')
     table = database.table('game')
 
     return table
@@ -24,14 +24,7 @@ def initiate_tournament_table():
 
 def save_player(player_dict):
     players_table = initiate_player_table()
-    result = check_player_duplicates(players_table, player_dict)
-    if result == 1:
-        print("réessayer avec un autre joueur")
-        input("")
-    else:
-        players_table.insert(player_dict)
-
-    return result
+    players_table.insert(player_dict)
 
 
 def save_rounds(match_info):
@@ -49,7 +42,8 @@ def save_tournament(tournament):
         'name': tournament.name,
         'venue': tournament.venue,
         'date': tournament.date,
-        'rounds': tournament.tours,
+        'players': tournament.players_in_list(),
+        'rounds': tournament.rounds,
         'round_matchs': tournament.round_matchs
     }
     tournament_table = initiate_tournament_table()
@@ -84,14 +78,3 @@ def delete_all_players():
 def delete_all_matchs():
     rounds_table = initiate_round_table()
     rounds_table.truncate()
-
-
-def check_player_duplicates(table, player_info):
-    check = 0
-    for player in table.all():
-        if (player['id'] == player_info['id']):
-            print("\n**** Ce joueur existe déjà\n")
-            check += 1
-            break
-
-    return check

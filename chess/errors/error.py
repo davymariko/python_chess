@@ -30,15 +30,15 @@ def date_tournament_is_valid(date_given):
             if len(date_given[2]) == 4:
                 date_valid = datetime(int(date_given[2]), int(date_given[1]), int(date_given[0]))
                 if today_date > date_valid:
-                    print("Vous avez mis une date antérieure")
+                    print("\n*** Vous avez mis une date antérieure")
                 else:
                     return True
             else:
                 print("\n*** Date: Respecter le format (jj/mm/aaaa)")
         except ValueError:
-            print("Date incorrecte")
+            print("\n*** Date incorrecte")
         except Exception:
-            print("Date incorrecte")
+            print("\n*** Date incorrecte")
     else:
         print("\n*** Date: respectez le format (jj/mm/aaaa)")
 
@@ -68,11 +68,6 @@ def text_is_alpha(string_text):
     else:
         print("\n*** Le champ de nom ou lieu doit être completé et contenir que des alphabets")
         return False
-
-
-def wrong_choice():
-    print("\n**** Mauvais choix, reessayer")
-    input("")
 
 
 def score_input(score_input):
