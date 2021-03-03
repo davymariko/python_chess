@@ -2,7 +2,7 @@ from time import sleep
 from chess.view.view import clear, print_preview, print_players, print_tournament_pre_launch, print_all_players, \
     print_pairs, print_player_to_rank, print_create_players, print_tournaments_report, print_players_by_tournament, \
     print_tournament_matchs, print_tournament_rounds
-from chess.errors.error import score_input, check_player_duplicates, number_is_valid
+from chess.errors.error import score_input
 from chess.models.model import Player, Tournament, Round
 from chess.export.database import save_player, delete_all_players, save_rounds, \
     matchs_list, delete_all_matchs, tournaments_list, save_tournament
@@ -57,9 +57,9 @@ def tournament():
     # ["Orlando", "Nkurunziza", "08/05/1996", 7, "H"], ["Lorraine", "Bafutwabo", "18/08/1995", 8, "F"]]
 
     player_auto = [["Olivier", "Nimbona", "10/12/1994", 1, "H"], ["Ange", "Tuyizere", "19/02/1999", 2, "F"],
-    ["Lydia", "Hakizimana", "26/07/1983", 3, "F"], ["Jocelin", "Ntungane", "14/03/1997", 4, "H"],
-    ["Kessia", "Ntibibuka", "03/02/1997", 5, "F"], ["Arno", "Rwasa", "04/04/1994", 6, "H"],
-    ["Orlando", "Nkurunziza", "08/05/1996", 7, "H"], ["Lorraine", "Bafutwabo", "18/08/1995", 8, "F"]]
+                    ["Lydia", "Hakizimana", "26/07/1983", 3, "F"], ["Jocelin", "Ntungane", "14/03/1997", 4, "H"],
+                    ["Kessia", "Ntibibuka", "03/02/1997", 5, "F"], ["Arno", "Rwasa", "04/04/1994", 6, "H"],
+                    ["Orlando", "Nkurunziza", "08/05/1996", 7, "H"], ["Lorraine", "Bafutwabo", "18/08/1995", 8, "F"]]
 
     list_temp = []
     for play in player_auto:
@@ -91,7 +91,7 @@ def tournament():
             print_preview(106)
             sleep(2)
             check_launch = False
-        
+
         elif players_choice == 1 and len(tournament.players) < 8:
             check_players = enter_players(tournament)
             if check_players == 0:
@@ -227,7 +227,7 @@ def enter_score(pairs_list, tournament, tour_level):
                 break
             else:
                 tournament.round_matchs.append(([pairs_list[match][0], float(score.split("-")[0])],
-                                    [pairs_list[match][1], float(score.split("-")[1])]))
+                                                [pairs_list[match][1], float(score.split("-")[1])]))
                 check = False
 
     return tournament
@@ -349,11 +349,11 @@ def tournaments_report(tournaments_list):
             choice = int(input('\n>>> '))
             if choice == 0:
                 check_report = False
-            elif choice > len(tournaments_list) or choice < 0:
+            elif choice <= len(tournaments_list) and choice > 0:
+                choose_rounds_match(tournaments_list, choice)
+            else:
                 print_preview(111)
                 input("")
-            else:
-                choose_rounds_match(tournaments_list, choice)
         except Exception:
             print_preview(111)
             input("")
@@ -387,11 +387,11 @@ def choose_tournament(tournament_list):
             choice = int(input('\n>>> '))
             if choice == 0:
                 check = False
-            elif choice > len(tournaments_list) or choice < 0:
+            elif choice <= len(tournaments_list) and choice > 0:
+                print_players_by_tournament(tournament_list, choice)
+            else:
                 print_preview(111)
                 input("")
-            else:
-                print_players_by_tournament(tournament_list, choice)
         except Exception:
             print_preview(111)
             input("")
@@ -413,3 +413,4 @@ def choose_rounds_match(tournaments_list, tournament_index):
             check = False
         else:
             print_preview(111)
+            input("")
