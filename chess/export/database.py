@@ -22,9 +22,18 @@ def initiate_tournament_table():
     return table
 
 
-def save_player(player_dict):
+def save_player(player):
+    player_record = {
+        'id': player.id,
+        'first_name': player.first_name,
+        'last_name': player.last_name,
+        'birth_date': player.birth_date,
+        'gender': player.gender,
+        'ranking': player.ranking
+    }
+
     players_table = initiate_player_table()
-    players_table.insert(player_dict)
+    players_table.insert(player_record)
 
 
 def save_rounds(match_info):
@@ -38,15 +47,18 @@ def save_rounds(match_info):
 
 
 def save_tournament(tournament):
+    tournament_table = initiate_tournament_table()
+
     tournament_info = {
         'name': tournament.name,
         'venue': tournament.venue,
         'date': tournament.date,
+        'description': tournament.description,
         'players': tournament.players_in_list(),
         'rounds': tournament.rounds,
         'round_matchs': tournament.round_matchs
     }
-    tournament_table = initiate_tournament_table()
+
     tournament_table.insert(tournament_info)
 
 
@@ -62,7 +74,7 @@ def matchs_list():
 
 def tournaments_list():
 
-    return initiate_tournament_table()
+    return initiate_tournament_table().all()
 
 
 def players_number():

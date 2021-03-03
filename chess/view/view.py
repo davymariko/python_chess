@@ -14,8 +14,8 @@ def print_players(players_list):
         print("Y a aucun joueur inscrit")
         input("")
         return
-    check = 0
-    while check < 1:
+    check = True
+    while check:
         clear()
         print("1. Par ordre croissant (Nom)\n2. Par ordre croissant (Classement)\
         \n3. Par ordre décroissant (Nom)\n4. Par ordre décroissant (Classement)\n5. Retour")
@@ -35,11 +35,11 @@ def print_players(players_list):
             print("*** Mauvaix choix")
         number = 1
         print("Liste des joueurs\n==================")
-        print("   Nom\t\t\t\tDate de Naissance\tSexe\tClassement\
+        print("      Nom\t\t\t\tDate de Naissance\tSexe\tClassement\
             \n--------------------------------------------------------------------------")
         for play in sorted_dict:
             whole_name = play['last_name'] + " " + play['first_name']
-            print(f"{number}. {whole_name:<20s}\t\t{play['birth_date']}\t\t{play['gender']}\t{play['ranking']}")
+            print(f"{number: <5} {whole_name:<20s}\t\t{play['birth_date']}\t\t{play['gender']}\t{play['ranking']}")
             number += 1
         input("")
 
@@ -65,15 +65,50 @@ def print_create_players(untaken_seats):
     print(f"Places restantes: {untaken_seats}\n")
 
 
-# print preview 102
-def print_continue():
-    input("\n\nAppuyer sur Entree pour continuer")
+def print_tournaments_report(tournaments_list):
+    print("  Nom\t\t\tLieu\t\t\tDate\t\tDescription\
+        \n------------------------------------------------------------------------------\n")
+    number = 1
+    for tour in tournaments_list:
+        name = tour["name"]
+        venue = tour["venue"]
+        date = tour["date"]
+        description = tour["description"]
+        print(f"{number}. {name:<21s}{venue:<24s}{date}\t{description}\n")
+        number += 1
+
+
+def print_players_by_tournament(tournaments_list, choice):
+    print_players(tournaments_list[choice-1]["players"])
+
+
+def print_all_players(tournament_list):
+    all_players_list = []
+    for tournament in tournament_list:
+        for player in tournament["players"]:
+            all_players_list.append(player)
+
+    print_players(all_players_list)
+
+
+def print_tournament_rounds(tournament):
+    pass
+
+
+def print_tournament_matchs(tournament):
+    clear()
+    number = 1
+    print("Liste de tous les matchs du tournoi\n=================================\n")
+    for match in tournament["round_matchs"]:
+        print(f"{number:<3}{match[0][0]:<25}{match[0][1]:<2} - {match[1][1]:<5}{match[1][0]}\n")
+        print("----------------------\n")
+        number += 1
 
 
 def print_preview(message_number):
     messages_dict = {
         101: "######## Bienvenue ########\
-        \n1. Commencer un tournoi\n2. Reprende un tournoi existant\n3. Rapport des tournois passés\n4. Quitter",
+        \n\n1. Commencer un tournoi\n2. Reprende un tournoi existant\n3. Rapport des tournois passés\n4. Quitter",
         102: "\n\nAppuyer sur Entree pour continuer",
         103: "\n\n ---- A bientot ----",
         104: "\n**** Place à la création des joueurs",
@@ -86,7 +121,14 @@ def print_preview(message_number):
         110: "\n1. Continuer à inscrire des joueurs\n2. Voir les joeurs inscrits\n3. Retour au menu principal",
         111: "\n**** Mauvais choix, reessayer",
         112: "######## Nouveau Classement ########\n",
-        113: "\n**** Classement et tours doivent etre des nombres entiers"
+        113: "\n**** Classement et tours doivent etre des nombres entiers",
+        114: "\n\n1. Confirmer\n2. Refaire\n3. Retour",
+        115: "######## Rapport ########\n\n1. Liste des tournois\n2. Liste des joueurs\n3. Retour",
+        116: "\n\nChoisissez un tournoi en entrant le numéro correspondant (0 pour sortir)",
+        117: "######## Rapport des joueurs ########\n\
+        \n1. Tous les joueurs\n2. Joueurs par tournoi\n3. Retour",
+        118: "######## Rapport du tournoi ########\n\n1. Liste de tous les tours\
+        \n2. Liste de tous les matchs\n3. Retour"
     }
 
     print(messages_dict[message_number])

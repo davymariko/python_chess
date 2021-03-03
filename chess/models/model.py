@@ -96,12 +96,7 @@ class Tournament:
         return matchs_list
 
 
-class Match:
-    def __init__(self, players):
-        self.players = players
-
-
 class Round:
-    def __init__(self, tour_number, matchs):
-        self.tour_number = tour_number
-        self.matchs = matchs
+    def __init__(self, round_number, round_matchs):
+        self.round_number = round_number
+        self.round_matchs = round_matchs

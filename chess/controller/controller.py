@@ -1,6 +1,7 @@
 from time import sleep
-from chess.view.view import clear, print_preview, print_players, print_tournament_pre_launch, \
-    print_pairs, print_player_to_rank, print_create_players
+from chess.view.view import clear, print_preview, print_players, print_tournament_pre_launch, print_all_players, \
+    print_pairs, print_player_to_rank, print_create_players, print_tournaments_report, print_players_by_tournament, \
+    print_tournament_matchs, print_tournament_rounds
 from chess.errors.error import score_input, check_player_duplicates, number_is_valid
 from chess.models.model import Player, Tournament, Round
 from chess.export.database import save_player, delete_all_players, save_rounds, \
@@ -8,16 +9,16 @@ from chess.export.database import save_player, delete_all_players, save_rounds, 
 
 
 def start():
-    check = 0
-    while check < 1:
+    check = True
+    while check:
         clear()
         print_preview(101)
         game_choice = input(("\n>>> "))
         if game_choice == "1":
-            check_tournament = 0
-            while check_tournament < 1:
+            check_tournament = True
+            while check_tournament:
                 if tournament() == 0:
-                    break
+                    check_tournament = False
                 else:
                     pass
         elif game_choice == "2":
@@ -25,10 +26,10 @@ def start():
             existing_tournament()
         elif game_choice == "3":
             clear()
-            tournament_report()
+            report()
         elif game_choice == "4":
             print_preview(103)
-            check = 1
+            check = False
             sleep(1)
             clear()
         else:
@@ -50,9 +51,14 @@ def tournament():
     # else:
     #     tournament = check_tournament_input
 
-    player_auto = [["Davy", "Nimbona", "19/06/1995", 1, "H"], ["Marie", "Hautot", "10/06/1993", 2, "F"],
-    ["Guy", "Nimbona", "01/12/1996", 3, "H"], ["Carelle", "Mugisha", "29/01/1994", 4, "F"],
-    ["Junkers", "Ntwari", "18/03/1994", 5, "H"], ["Gretta", "Nkanagu", "30/08/1995", 6, "F"],
+    # player_auto = [["Davy", "Nimbona", "19/06/1995", 1, "H"], ["Marie", "Hautot", "10/06/1993", 2, "F"],
+    # ["Guy", "Nimbona", "01/12/1996", 3, "H"], ["Carelle", "Mugisha", "29/01/1994", 4, "F"],
+    # ["Junkers", "Ntwari", "18/03/1994", 5, "H"], ["Gretta", "Nkanagu", "30/08/1995", 6, "F"],
+    # ["Orlando", "Nkurunziza", "08/05/1996", 7, "H"], ["Lorraine", "Bafutwabo", "18/08/1995", 8, "F"]]
+
+    player_auto = [["Olivier", "Nimbona", "10/12/1994", 1, "H"], ["Ange", "Tuyizere", "19/02/1999", 2, "F"],
+    ["Lydia", "Hakizimana", "26/07/1983", 3, "F"], ["Jocelin", "Ntungane", "14/03/1997", 4, "H"],
+    ["Kessia", "Ntibibuka", "03/02/1997", 5, "F"], ["Arno", "Rwasa", "04/04/1994", 6, "H"],
     ["Orlando", "Nkurunziza", "08/05/1996", 7, "H"], ["Lorraine", "Bafutwabo", "18/08/1995", 8, "F"]]
 
     list_temp = []
@@ -62,8 +68,8 @@ def tournament():
         list_temp.append(player)
     tournament.players = list_temp
 
-    check_launch = 0
-    while check_launch < 1:
+    check_launch = True
+    while check_launch:
         clear()
         print_tournament_pre_launch(tournament)
         try:
@@ -84,7 +90,7 @@ def tournament():
 
             print_preview(106)
             sleep(2)
-            check_launch = 1
+            check_launch = False
         
         elif players_choice == 1 and len(tournament.players) < 8:
             check_players = enter_players(tournament)
@@ -96,7 +102,7 @@ def tournament():
         elif players_choice == 2:
             print_players(tournament.players_in_list())
         elif players_choice == 3:
-            check_launch = 1
+            check_launch = False
         else:
             print_preview(111)
             input("")
@@ -108,8 +114,8 @@ def tournament():
 
 
 def enter_tournament_info():
-    check = 0
-    while check < 1:
+    check = True
+    while check:
         clear()
         print_preview(105)
         tournament_name = input("Nom du tournoi: ")
@@ -120,10 +126,18 @@ def enter_tournament_info():
             rounds_number = 4
         description = input("Description: ")
         tournament = Tournament(tournament_name, venue, tournament_date, rounds_number, [], [], description)
-        if tournament.is_valid() == 3:
-            check = 1
-        else:
-            input("")
+
+        print_preview(114)
+        verify = input("\n>>> ")
+        if verify == "1":
+            if tournament.is_valid() == 3:
+                check = False
+            else:
+                input("")
+        elif verify == "2":
+            pass
+        elif verify == "3":
+            check = False
 
     return tournament
 
@@ -142,13 +156,15 @@ def enter_players(tournament):
         birth_date = input("Date de naissance (Format: jj/mm/aaaa): ")
         ranking = input("Classement: ")
         gender = input("Sexe(H ou F): ")
-        verify = input("\n\n1. Confirmer\n2. Refaire\n3. Retour\n>>> ")
+        print_preview(114)
+        verify = input("\n>>> ")
         if verify == '1':
             player = Player(first_name, last_name, birth_date, gender, ranking)
             if player.is_valid() == 4:
                 result = check_player_exists(tournament.players, player)
                 if result == 1:
                     tournament.players.append(player)
+                    save_player(player)
                     taken_seat = len(tournament.players)
             else:
                 input("")
@@ -179,27 +195,27 @@ def generate_pairs(tournament, current_round):
             versus = player_index + 1
             player1 = sorted_players[player_index][0]
             player2 = sorted_players[versus][0]
-            check_pair = 0
-            while check_pair < 1:
+            check_pair = True
+            while check_pair:
                 if player1 in unmatched_players:
                     if (player2 in unmatched_players and
                             not_played_with(list_of_played_with(tournament), player1, player2)):
                         pairs_list.append([player1, player2])
                         unmatched_players.remove(player1)
                         unmatched_players.remove(player2)
-                        check_pair = 1
+                        check_pair = False
                     else:
                         versus += 1
                         player2 = sorted_players[versus][0]
                 else:
-                    check_pair = 1
+                    check_pair = False
 
     return pairs_list
 
 
 def enter_score(pairs_list, tournament, tour_level):
-    check = 0
-    while check < 1:
+    check = True
+    while check:
         clear()
         print_pairs(pairs_list, tournament.players_in_list(), tour_level)
         print_preview(108)
@@ -212,31 +228,31 @@ def enter_score(pairs_list, tournament, tour_level):
             else:
                 tournament.round_matchs.append(([pairs_list[match][0], float(score.split("-")[0])],
                                     [pairs_list[match][1], float(score.split("-")[1])]))
-                check = 1
+                check = False
 
     return tournament
 
 
 def set_ranking(tournament):
     for index in range(0, len(tournament.players)):
-        check = 0
-        while check < 1:
+        check = True
+        while check:
             clear()
             print_preview(112)
             print_player_to_rank(tournament.players[index])
             ranking = input("\nNouveau classement >>> ")
             try:
                 tournament.players[index].ranking = int(ranking)
-                check += 1
+                check = False
             except Exception:
                 print_preview(113)
                 input("")
 
     return tournament
 
+
 def check_tournament_launch():
     pass
-
 
 
 def check_player_exists(players_list, player):
@@ -309,11 +325,91 @@ def existing_tournament():
     pass
 
 
-def tournament_report():
-    clear()
-    print("Rapport")
-    try:
-        for tournament in tournaments_list():
-            print_players(tournament["players"])
-    except Exception:
-        print("Aucun tournoi à voir")
+def report():
+    check_report = True
+    while check_report:
+        clear()
+        print_preview(115)
+        choice = input('\n>>> ')
+        if choice == "1":
+            tournaments_report(tournaments_list())
+        elif choice == "2":
+            players_report(tournaments_list())
+        elif choice == "3":
+            check_report = False
+
+
+def tournaments_report(tournaments_list):
+    check_report = True
+    while check_report:
+        clear()
+        print_tournaments_report(tournaments_list)
+        print_preview(116)
+        try:
+            choice = int(input('\n>>> '))
+            if choice == 0:
+                check_report = False
+            elif choice > len(tournaments_list) or choice < 0:
+                print_preview(111)
+                input("")
+            else:
+                choose_rounds_match(tournaments_list, choice)
+        except Exception:
+            print_preview(111)
+            input("")
+            check_report = False
+
+
+def players_report(tournaments_list):
+    check_report = True
+    while check_report:
+        clear()
+        print_preview(117)
+        choice = input('\n>>> ')
+        if choice == "1":
+            print_all_players(tournaments_list)
+        elif choice == "2":
+            choose_tournament(tournaments_list)
+        elif choice == "3":
+            check_report = False
+        else:
+            print_preview(111)
+            input("")
+
+
+def choose_tournament(tournament_list):
+    check = True
+    while check:
+        clear()
+        print_tournaments_report(tournament_list)
+        print_preview(116)
+        try:
+            choice = int(input('\n>>> '))
+            if choice == 0:
+                check = False
+            elif choice > len(tournaments_list) or choice < 0:
+                print_preview(111)
+                input("")
+            else:
+                print_players_by_tournament(tournament_list, choice)
+        except Exception:
+            print_preview(111)
+            input("")
+
+
+def choose_rounds_match(tournaments_list, tournament_index):
+    check = True
+    while check:
+        clear()
+        print_preview(118)
+        choice = input('\n>>> ')
+        if choice == "1":
+            print_tournament_rounds(tournaments_list[tournament_index])
+            input("")
+        elif choice == "2":
+            print_tournament_matchs(tournaments_list[tournament_index])
+            input("")
+        elif choice == "3":
+            check = False
+        else:
+            print_preview(111)
