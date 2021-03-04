@@ -2,9 +2,10 @@ from os import system, name
 
 
 def print_tournament_pre_launch(info):
-    print("######## Nouveau Tournoi ########\n")
-    print(f"Nom du tournoi: {info.name}\nLieu: {info.venue}\nDate du tournoi: {info.date}\
-        \nTours: {info.rounds}\nNombre de joueurs: {len(info.players)}\nDescription: {info.description}")
+    print("######## Tournoi ########\n")
+    print(f"Nom du tournoi: {info.name}\nLieu: {info.venue}\nDate du tournoi: {info.date}\nTours: {info.rounds}\
+        \nNombre de joueurs: {len(info.players)}\nTours joués: {int(len(info.round_matchs)/4)}\
+        \nDescription:{info.description}")
 
     return
 
@@ -35,11 +36,11 @@ def print_players(players_list):
             print("*** Mauvaix choix")
         number = 1
         print("Liste des joueurs\n==================")
-        print("      Nom\t\t\t\tDate de Naissance\tSexe\tClassement\
-            \n--------------------------------------------------------------------------")
+        print("     Nom\t\t\tDate de Naissance\tSexe\tClassement")
+        print("-"*75)
         for play in sorted_dict:
             whole_name = play['last_name'] + " " + play['first_name']
-            print(f"{number: <5} {whole_name:<20s}\t\t{play['birth_date']}\t\t{play['gender']}\t{play['ranking']}")
+            print(f"{number:<5}{whole_name:<28s}{play['birth_date']}\t\t{play['gender']}\t{play['ranking']}")
             number += 1
         input("")
 
@@ -51,7 +52,7 @@ def print_pairs(pairs_list, players_list, current_tour):
         player1 = [[x['last_name'], x['first_name']] for x in players_list if x['id'] == pair[0]]
         player2 = [[x['last_name'], x['first_name']] for x in players_list if x['id'] == pair[1]]
         print(f"{match}. {player1[0][0]} {player1[0][1]} vs  {player2[0][0]}  {player2[0][1]}")
-        print("----------------------")
+        print("-"*10)
         match += 1
 
 
@@ -66,8 +67,9 @@ def print_create_players(untaken_seats):
 
 
 def print_tournaments_report(tournaments_list):
-    print("  Nom\t\t\tLieu\t\t\tDate\t\tDescription\
-        \n------------------------------------------------------------------------------\n")
+    clear()
+    print("  Nom\t\t\tLieu\t\t\tDate\t\tDescription")
+    print("-"*100, "\n")
     number = 1
     for tour in tournaments_list:
         name = tour["name"]
@@ -92,17 +94,27 @@ def print_all_players(tournament_list):
 
 
 def print_tournament_rounds(tournament):
-    pass
+    clear()
+    number = 1
+    print("Liste de tous les tours du tournoi\n=================================\n")
+    for match in tournament["round_matchs"]:
+        print(f"{number:<3}{match[0][0]:<25}{match[0][1]:<2} - {match[1][1]:<5}{match[1][0]}\n")
+        print("*"*100, "\n")
+        number += 1
+    input("")
 
 
 def print_tournament_matchs(tournament):
     clear()
     number = 1
     print("Liste de tous les matchs du tournoi\n=================================\n")
+
     for match in tournament["round_matchs"]:
         print(f"{number:<3}{match[0][0]:<25}{match[0][1]:<2} - {match[1][1]:<5}{match[1][0]}\n")
         print("----------------------\n")
         number += 1
+
+    input("")
 
 
 def print_preview(message_number):
@@ -123,12 +135,17 @@ def print_preview(message_number):
         112: "######## Nouveau Classement ########\n",
         113: "\n**** Classement et tours doivent etre des nombres entiers",
         114: "\n\n1. Confirmer\n2. Refaire\n3. Retour",
-        115: "######## Rapport ########\n\n1. Liste des tournois\n2. Liste des joueurs\n3. Retour",
+        115: "######## Rapport ########\n\n1. Liste des joueurs\n2. Liste des matchs par tournoi\
+        \n3. Liste des tours par tournoi\n4. Retour",
         116: "\n\nChoisissez un tournoi en entrant le numéro correspondant (0 pour sortir)",
         117: "######## Rapport des joueurs ########\n\
         \n1. Tous les joueurs\n2. Joueurs par tournoi\n3. Retour",
         118: "######## Rapport du tournoi ########\n\n1. Liste de tous les tours\
-        \n2. Liste de tous les matchs\n3. Retour"
+        \n2. Liste de tous les matchs\n3. Retour",
+        119: "\n\n *** Y a un tournoi deja existant. Continuer l'annulera\n\nContinuer Oui(O) ou (Non)?",
+        120: "\n\n *** Le joueur existe déjà",
+        121: "\n\n *** Pas de tournoi en cours",
+        122: "\n\n *** Pas de tournoi deja joué"
     }
 
     print(messages_dict[message_number])

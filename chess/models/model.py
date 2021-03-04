@@ -97,6 +97,14 @@ class Tournament:
 
 
 class Round:
-    def __init__(self, round_number, round_matchs):
-        self.round_number = round_number
+    def __init__(self, name, round_matchs, start_time, end_time):
+        self.name = name
         self.round_matchs = round_matchs
+        self.start_time = start_time
+        self.end_time = end_time
+
+
+class Match:
+    def __init__(self, player1, player2):
+        self.player1 = player1
+        self.player2 = player2

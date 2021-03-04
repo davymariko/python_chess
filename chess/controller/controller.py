@@ -4,8 +4,10 @@ from chess.view.view import clear, print_preview, print_players, print_tournamen
     print_tournament_matchs, print_tournament_rounds
 from chess.errors.error import score_input
 from chess.models.model import Player, Tournament, Round
-from chess.export.database import save_player, delete_all_players, save_rounds, \
-    matchs_list, delete_all_matchs, tournaments_list, save_tournament
+from chess.export.database import Database
+
+
+database = Database()
 
 
 def start():
@@ -15,18 +17,23 @@ def start():
         print_preview(101)
         game_choice = input(("\n>>> "))
         if game_choice == "1":
-            check_tournament = True
-            while check_tournament:
-                if tournament() == 0:
-                    check_tournament = False
-                else:
+            if check_existing_tournament():
+                pass
+            else:
+                if tournament() == 1:
                     pass
         elif game_choice == "2":
-            clear()
-            existing_tournament()
+            if len(database.initiate_unfinished_tournament_table().all()) == 0:
+                print_preview(121)
+                input("")
+            else:
+                tournament()
         elif game_choice == "3":
-            clear()
-            report()
+            if len(database.initiate_tournament_table().all()) == 0:
+                print_preview(122)
+                input("")
+            else:
+                report()
         elif game_choice == "4":
             print_preview(103)
             check = False
@@ -39,51 +46,37 @@ def start():
 
 
 def tournament():
-    """La fonction qui lance le tournoi.
-    Dans cette function on appelle les differentes fonctions du jeu d'echecs:
-    Creer un tournoi, joueurs, generer des paires, entrer les scores et sauvegarder le tournoi
-    """
-    tournament = enter_tournament_info()
-    # check_tournament_input = enter_players(tournament)
 
-    # if check_tournament_input == 0:
-    #     pass
-    # else:
-    #     tournament = check_tournament_input
+    if len(database.initiate_unfinished_tournament_table().all()) > 0:
+        tournament = load_existing_tournament()
+    else:
+        info_input = enter_tournament_info()
+        if info_input == 0:
+            return 1
+        else:
+            tournament = info_input
 
-    # player_auto = [["Davy", "Nimbona", "19/06/1995", 1, "H"], ["Marie", "Hautot", "10/06/1993", 2, "F"],
-    # ["Guy", "Nimbona", "01/12/1996", 3, "H"], ["Carelle", "Mugisha", "29/01/1994", 4, "F"],
-    # ["Junkers", "Ntwari", "18/03/1994", 5, "H"], ["Gretta", "Nkanagu", "30/08/1995", 6, "F"],
-    # ["Orlando", "Nkurunziza", "08/05/1996", 7, "H"], ["Lorraine", "Bafutwabo", "18/08/1995", 8, "F"]]
+    if len(tournament.players) == 8:
+        pass
+    else:
+        tournament = enter_players(tournament)
 
-    player_auto = [["Olivier", "Nimbona", "10/12/1994", 1, "H"], ["Ange", "Tuyizere", "19/02/1999", 2, "F"],
-                    ["Lydia", "Hakizimana", "26/07/1983", 3, "F"], ["Jocelin", "Ntungane", "14/03/1997", 4, "H"],
-                    ["Kessia", "Ntibibuka", "03/02/1997", 5, "F"], ["Arno", "Rwasa", "04/04/1994", 6, "H"],
-                    ["Orlando", "Nkurunziza", "08/05/1996", 7, "H"], ["Lorraine", "Bafutwabo", "18/08/1995", 8, "F"]]
-
-    list_temp = []
-    for play in player_auto:
-        player = Player(play[0], play[1], play[2], play[4], play[3])
-
-        list_temp.append(player)
-    tournament.players = list_temp
+    # tournament = alternative_entry(tournament)
 
     check_launch = True
     while check_launch:
         clear()
         print_tournament_pre_launch(tournament)
-        try:
-            if len(tournament.players) == 8:
-                print_preview(109)
-                players_choice = int(input("\n>>> "))
-            else:
-                print_preview(110)
-                players_choice = int(input("\n>>> "))
-        except Exception:
-            players_choice = 999
+        if len(tournament.players) == 8:
+            print_preview(109)
+            players_choice = input("\n>>> ")
+        else:
+            print_preview(110)
+            players_choice = input("\n>>> ")
 
-        if players_choice == 1 and len(tournament.players) == 8:
-            for current_round in range(1, (tournament.rounds + 1)):
+        if players_choice == "1" and len(tournament.players) == 8:
+            played_rounds = int(len(database.initiate_round_table().all()) / 4)
+            for current_round in range(1, ((tournament.rounds + 1) - played_rounds)):
                 clear()
                 pairs = generate_pairs(tournament, current_round)
                 tournament = enter_score(pairs, tournament, current_round)
@@ -92,23 +85,24 @@ def tournament():
             sleep(2)
             check_launch = False
 
-        elif players_choice == 1 and len(tournament.players) < 8:
+        elif players_choice == "1" and len(tournament.players) < 8:
             check_players = enter_players(tournament)
             if check_players == 0:
                 pass
             else:
                 for player in tournament.players:
                     tournament.players.append(player)
-        elif players_choice == 2:
+        elif players_choice == "2":
             print_players(tournament.players_in_list())
-        elif players_choice == 3:
+        elif players_choice == "3":
             check_launch = False
         else:
             print_preview(111)
             input("")
-
-    tournament = set_ranking(tournament)
-    save_tournament(tournament)
+    if len(tournament.players) == 8 and len(tournament.round_matchs) == 16:
+        tournament = set_ranking(tournament)
+        database.save_tournament(tournament)
+        database.delete_existing_tournament()
 
     return 0
 
@@ -121,23 +115,28 @@ def enter_tournament_info():
         tournament_name = input("Nom du tournoi: ")
         venue = input("Lieu: ")
         tournament_date = input("Date du tournoi (Format: jj/mm/aaaa): ")
-        rounds_number = input("Nombre de tours du tournoi: ")
-        if len(rounds_number) == 0:
-            rounds_number = 4
+        rounds = input("Nombre de tours du tournoi: ")
+        if len(rounds) == 0:
+            rounds = 4
         description = input("Description: ")
-        tournament = Tournament(tournament_name, venue, tournament_date, rounds_number, [], [], description)
+        tournament = Tournament(tournament_name, venue, tournament_date, rounds, [], [], description)
 
         print_preview(114)
         verify = input("\n>>> ")
         if verify == "1":
             if tournament.is_valid() == 3:
+                database.pre_save_tournament(tournament)
                 check = False
             else:
                 input("")
         elif verify == "2":
             pass
         elif verify == "3":
-            check = False
+            return 0
+        else:
+            print_preview(111)
+            print_preview(102)
+            input("")
 
     return tournament
 
@@ -146,11 +145,11 @@ def enter_players(tournament):
     print_preview(104)
     sleep(1)
     taken_seat = len(tournament.players)
-    remaining = 8 - len(tournament.players)
+    remaining = 8 - taken_seat
     while (taken_seat < remaining):
         clear()
-        untaken_seats = 8 - len(tournament.players)
-        print_create_players(untaken_seats)
+        available_seats = 8 - len(tournament.players)
+        print_create_players(available_seats)
         first_name = input("Prénom: ")
         last_name = input("Nom: ")
         birth_date = input("Date de naissance (Format: jj/mm/aaaa): ")
@@ -161,10 +160,9 @@ def enter_players(tournament):
         if verify == '1':
             player = Player(first_name, last_name, birth_date, gender, ranking)
             if player.is_valid() == 4:
-                result = check_player_exists(tournament.players, player)
-                if result == 1:
+                if not check_player_exists(tournament.players, player):
                     tournament.players.append(player)
-                    save_player(player)
+                    database.save_player(player)
                     taken_seat = len(tournament.players)
             else:
                 input("")
@@ -230,6 +228,8 @@ def enter_score(pairs_list, tournament, tour_level):
                                                 [pairs_list[match][1], float(score.split("-")[1])]))
                 check = False
 
+        database.save_rounds(tournament.round_matchs)
+
     return tournament
 
 
@@ -251,23 +251,39 @@ def set_ranking(tournament):
     return tournament
 
 
-def check_tournament_launch():
-    pass
+def check_existing_tournament():
+    check = True
+    while check:
+        clear()
+        if len(database.initiate_unfinished_tournament_table().all()) == 0:
+            return False
+        else:
+            print_preview(119)
+            choice = input(("\n>>> "))
+            if choice.lower() == "o" or choice.lower() == "oui":
+                database.delete_existing_tournament()
+                return False
+            elif choice.lower() == "n" or choice.lower() == "non":
+                return True
+            else:
+                print_preview(111)
+                input("")
 
 
 def check_player_exists(players_list, player):
     if len(players_list) == 0:
-        return 1
+        return False
     else:
         for existing in players_list:
             try:
                 if player.id == existing.id:
-                    return 0
+                    print_preview(120)
+                    input("")
+                    return True
                 else:
-                    return 1
+                    return False
             except Exception:
-                pass
-        return 1
+                return False
 
 
 def score_per_player(tournament):
@@ -321,10 +337,6 @@ def not_played_with(played_with_dict, player1, player2):
         return False
 
 
-def existing_tournament():
-    pass
-
-
 def report():
     check_report = True
     while check_report:
@@ -332,11 +344,16 @@ def report():
         print_preview(115)
         choice = input('\n>>> ')
         if choice == "1":
-            tournaments_report(tournaments_list())
+            players_report(database.initiate_tournament_table().all())
         elif choice == "2":
-            players_report(tournaments_list())
+            matchs_report(database.initiate_tournament_table().all())
         elif choice == "3":
+            tournaments_report(database.initiate_tournament_table().all())
+        elif choice == "4":
             check_report = False
+        else:
+            print_preview(111)
+            input("")
 
 
 def tournaments_report(tournaments_list):
@@ -377,6 +394,46 @@ def players_report(tournaments_list):
             input("")
 
 
+def matchs_report(tournaments_list):
+    check_report = True
+    while check_report:
+        clear()
+        print_tournaments_report(tournaments_list)
+        print_preview(116)
+        try:
+            choice = int(input('\n>>> '))
+            if choice == 0:
+                check_report = False
+            elif choice < (len(tournaments_list) + 1) and choice > 0:
+                print_tournament_matchs(tournaments_list[choice-1])
+            else:
+                print_preview(111)
+                input("")
+        except Exception:
+            print_preview(111)
+            input("")
+
+
+def rounds_report(tournaments_list):
+    check_report = True
+    while check_report:
+        clear()
+        print_tournaments_report(tournaments_list)
+        print_preview(116)
+        try:
+            choice = int(input('\n>>> '))
+            if choice == 0:
+                check_report = False
+            elif choice < (len(tournaments_list) + 1) and choice > 0:
+                print_tournament_rounds(tournaments_list[choice])
+            else:
+                print_preview(111)
+                input("")
+        except Exception:
+            print_preview(111)
+            input("")
+
+
 def choose_tournament(tournament_list):
     check = True
     while check:
@@ -387,7 +444,7 @@ def choose_tournament(tournament_list):
             choice = int(input('\n>>> '))
             if choice == 0:
                 check = False
-            elif choice <= len(tournaments_list) and choice > 0:
+            elif choice <= len(database.initiate_tournament_table().all()) and choice > 0:
                 print_players_by_tournament(tournament_list, choice)
             else:
                 print_preview(111)
@@ -414,3 +471,57 @@ def choose_rounds_match(tournaments_list, tournament_index):
         else:
             print_preview(111)
             input("")
+
+
+def load_existing_tournament():
+    tournament_data = database.initiate_unfinished_tournament_table().all()[0]
+
+    tournament = Tournament(tournament_data["name"], tournament_data["venue"], tournament_data["date"],
+                            tournament_data["rounds"], [], [], tournament_data["description"])
+    if len(database.initiate_player_table().all()) != 0:
+        for player in database.initiate_player_table().all():
+            player_object = Player(player["first_name"], player["last_name"], player["birth_date"],
+                                   player["gender"], player["ranking"])
+            tournament.players.append(player_object)
+
+    if len(tournament.players) == 8:
+        for match in database.initiate_round_table().all():
+            tournament.round_matchs.append(([match["players"][0], match["score"][0]],
+                                            [match["players"][1], match["score"][1]]))
+    clear()
+    print_tournament_pre_launch(tournament)
+    print_preview(102)
+    input("")
+
+    return tournament
+
+
+def alternative_entry(tournament):
+
+    # player_auto = [["Davy", "Nimbona", "19/06/1995", 1, "H"], ["Marie", "Hautot", "10/06/1993", 2, "F"],
+    # ["Guy", "Nimbona", "01/12/1996", 3, "H"], ["Carelle", "Mugisha", "29/01/1994", 4, "F"],
+    # ["Junkers", "Ntwari", "18/03/1994", 5, "H"], ["Gretta", "Nkanagu", "30/08/1995", 6, "F"],
+    # ["Orlando", "Nkurunziza", "08/05/1996", 7, "H"], ["Lorraine", "Bafutwabo", "18/08/1995", 8, "F"]]
+
+    # player_auto = [["Olivier", "Nimbona", "10/12/1994", 1, "H"], ["Ange", "Tuyizere", "19/02/1999", 2, "F"],
+    #                 ["Lydia", "Hakizimana", "26/07/1983", 3, "F"], ["Jocelin", "Ntungane", "14/03/1997", 4, "H"],
+    #                 ["Kessia", "Ntibibuka", "03/02/1997", 5, "F"], ["Arno", "Rwasa", "04/04/1994", 6, "H"],
+    #                 ["Orlando", "Nkurunziza", "08/05/1996", 7, "H"], ["Vanessa", "Uwase", "04/03/1995", 8, "F"]]
+
+    # list_temp = []
+    # for play in player_auto:
+    #     player = Player(play[0], play[1], play[2], play[4], play[3])
+
+    #     list_temp.append(player)
+
+    # # list_temp = []
+    # # for play in players_list():
+    # #     player = Player(play["first_name"], play["last_name"], play["birth_date"], play["gender"], play["ranking"])
+
+    # #     list_temp.append(player)
+
+    # tournament.players = list_temp
+
+    # return tournament
+
+    pass
