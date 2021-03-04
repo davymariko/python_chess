@@ -208,7 +208,3 @@ def delete_all_players():
 def delete_all_matchs():
     rounds_table = initiate_round_table()
     rounds_table.truncate()
-
-
-if __name__ == "__main__":
-    database = Database()

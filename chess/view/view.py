@@ -46,7 +46,7 @@ def print_players(players_list):
 
 
 def print_pairs(pairs_list, players_list, current_tour):
-    print(f"Paires généreées pour le Round {current_tour}\n")
+    print(f"Paires générées pour le Round {current_tour}\n")
     match = 1
     for pair in pairs_list:
         player1 = [[x['last_name'], x['first_name']] for x in players_list if x['id'] == pair[0]]
@@ -77,6 +77,7 @@ def print_tournaments_report(tournaments_list):
         date = tour["date"]
         description = tour["description"]
         print(f"{number}. {name:<21s}{venue:<24s}{date}\t{description}\n")
+        
         number += 1
 
 
@@ -135,8 +136,8 @@ def print_preview(message_number):
         112: "######## Nouveau Classement ########\n",
         113: "\n**** Classement et tours doivent etre des nombres entiers",
         114: "\n\n1. Confirmer\n2. Refaire\n3. Retour",
-        115: "######## Rapport ########\n\n1. Liste des joueurs\n2. Liste des matchs par tournoi\
-        \n3. Liste des tours par tournoi\n4. Retour",
+        115: "######## Rapport ########\n\n1. Liste des tournois\n2. Liste des joueurs\
+        \n3. Liste des matchs par tournoi\n4. Liste des tours par tournoi\n5. Retour",
         116: "\n\nChoisissez un tournoi en entrant le numéro correspondant (0 pour sortir)",
         117: "######## Rapport des joueurs ########\n\
         \n1. Tous les joueurs\n2. Joueurs par tournoi\n3. Retour",

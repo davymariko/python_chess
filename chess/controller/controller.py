@@ -339,42 +339,25 @@ def not_played_with(played_with_dict, player1, player2):
 
 def report():
     check_report = True
+    tournaments_list = database.initiate_tournament_table().all()
     while check_report:
         clear()
         print_preview(115)
         choice = input('\n>>> ')
+
         if choice == "1":
-            players_report(database.initiate_tournament_table().all())
-        elif choice == "2":
-            matchs_report(database.initiate_tournament_table().all())
+            print_tournaments_report(tournaments_list)
+        if choice == "2":
+            players_report(tournaments_list)
         elif choice == "3":
-            tournaments_report(database.initiate_tournament_table().all())
+            matchs_report(tournaments_list)
         elif choice == "4":
+            rounds_report(tournaments_list)
+        elif choice == "5":
             check_report = False
         else:
             print_preview(111)
             input("")
-
-
-def tournaments_report(tournaments_list):
-    check_report = True
-    while check_report:
-        clear()
-        print_tournaments_report(tournaments_list)
-        print_preview(116)
-        try:
-            choice = int(input('\n>>> '))
-            if choice == 0:
-                check_report = False
-            elif choice <= len(tournaments_list) and choice > 0:
-                choose_rounds_match(tournaments_list, choice)
-            else:
-                print_preview(111)
-                input("")
-        except Exception:
-            print_preview(111)
-            input("")
-            check_report = False
 
 
 def players_report(tournaments_list):
@@ -450,25 +433,6 @@ def choose_tournament(tournament_list):
                 print_preview(111)
                 input("")
         except Exception:
-            print_preview(111)
-            input("")
-
-
-def choose_rounds_match(tournaments_list, tournament_index):
-    check = True
-    while check:
-        clear()
-        print_preview(118)
-        choice = input('\n>>> ')
-        if choice == "1":
-            print_tournament_rounds(tournaments_list[tournament_index])
-            input("")
-        elif choice == "2":
-            print_tournament_matchs(tournaments_list[tournament_index])
-            input("")
-        elif choice == "3":
-            check = False
-        else:
             print_preview(111)
             input("")
 
