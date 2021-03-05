@@ -91,7 +91,7 @@ def tournament():
                     clear()
                 if check:
                     break
-            
+
             if len(tournament.round_matchs) == 16:
                 print_preview(106)
                 sleep(2)
@@ -478,31 +478,31 @@ def load_existing_tournament():
 
 def alternative_entry(tournament):
 
-    # player_auto = [["Davy", "Nimbona", "19/06/1995", 1, "H"], ["Marie", "Hautot", "10/06/1993", 2, "F"],
-    # ["Guy", "Nimbona", "01/12/1996", 3, "H"], ["Carelle", "Mugisha", "29/01/1994", 4, "F"],
-    # ["Junkers", "Ntwari", "18/03/1994", 5, "H"], ["Gretta", "Nkanagu", "30/08/1995", 6, "F"],
-    # ["Orlando", "Nkurunziza", "08/05/1996", 7, "H"], ["Lorraine", "Bafutwabo", "18/08/1995", 8, "F"]]
+    # # player_auto = [["Davy", "Nimbona", "19/06/1995", 1, "H"], ["Marie", "Hautot", "10/06/1993", 2, "F"],
+    # # ["Guy", "Nimbona", "01/12/1996", 3, "H"], ["Carelle", "Mugisha", "29/01/1994", 4, "F"],
+    # # ["Junkers", "Ntwari", "18/03/1994", 5, "H"], ["Gretta", "Nkanagu", "30/08/1995", 6, "F"],
+    # # ["Orlando", "Nkurunziza", "08/05/1996", 7, "H"], ["Lorraine", "Bafutwabo", "18/08/1995", 8, "F"]]
 
-    player_auto = [["Olivier", "Nimbona", "10/12/1994", 1, "H"], ["Ange", "Tuyizere", "19/02/1999", 2, "F"],
-                    ["Lydia", "Hakizimana", "26/07/1983", 3, "F"], ["Jocelin", "Ntungane", "14/03/1997", 4, "H"],
-                    ["Kessia", "Ntibibuka", "03/02/1997", 5, "F"], ["Arno", "Rwasa", "04/04/1994", 6, "H"],
-                    ["Orlando", "Nkurunziza", "08/05/1996", 7, "H"], ["Vanessa", "Uwase", "04/03/1995", 8, "F"]]
+    # player_auto = [["Olivier", "Nimbona", "10/12/1994", 1, "H"], ["Ange", "Tuyizere", "19/02/1999", 2, "F"],
+    #                 ["Lydia", "Hakizimana", "26/07/1983", 3, "F"], ["Jocelin", "Ntungane", "14/03/1997", 4, "H"],
+    #                 ["Kessia", "Ntibibuka", "03/02/1997", 5, "F"], ["Arno", "Rwasa", "04/04/1994", 6, "H"],
+    #                 ["Orlando", "Nkurunziza", "08/05/1996", 7, "H"], ["Vanessa", "Uwase", "04/03/1995", 8, "F"]]
 
-    list_temp = []
-    for play in player_auto:
-        player = Player(play[0], play[1], play[2], play[4], play[3])
-        database.save_player(player)
+    # list_temp = []
+    # for play in player_auto:
+    #     player = Player(play[0], play[1], play[2], play[4], play[3])
+    #     database.save_player(player)
 
-        list_temp.append(player)
+    #     list_temp.append(player)
 
-    # # list_temp = []
-    # # for play in players_list():
-    # #     player = Player(play["first_name"], play["last_name"], play["birth_date"], play["gender"], play["ranking"])
+    # list_temp = []
+    # for play in players_list():
+    #     player = Player(play["first_name"], play["last_name"], play["birth_date"], play["gender"], play["ranking"])
 
-    # #     list_temp.append(player)
+    #     list_temp.append(player)
 
-    tournament.players = list_temp
+    # tournament.players = list_temp
 
-    return tournament
+    # return tournament
 
-    # pass
+    pass

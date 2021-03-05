@@ -103,7 +103,7 @@ def print_tournament_rounds(tournament):
     print("Liste de tous les tours du tournoi\n=================================\n")
     for match in tournament["round_matchs"]:
         if ((number - 1) % 4) == 0:
-            print(f"\nRound {num}","\n", "*"*10)
+            print(f"\nRound {num}", "\n", "*"*10)
             number = 1
             num += 1
         player1 = [[x['last_name'], x['first_name']] for x in tournament["players"] if x['id'] == match[0][0]]
