@@ -16,13 +16,37 @@ Les paires doivent être générées selon le système de [tournoi suisse](https
 # Environnement
 * L'installation de [Python 3](https://www.python.org/downloads/) est nécessaire pour la réalisation de ce projet
 * Après l'installation de Python3, l'installation de [pip](https://pypi.org/project/pip/) est recommandé
+* Après il est nécessaire d'installe [virtualenv](https://pypi.org/project/virtualenv/)
 * L'outil de dévelopement utilisé et recommandé: [Visual Studio Code (Vscode)](https://code.visualstudio.com/)
 * Le programme peut être executé sur Linux, Mac et Windows
 * Base de donnée: [TinyDB](https://tinydb.readthedocs.io/en/latest/)
 
 # Installation
 1. Cloner, en premier, le projet sur votre bureau ou environnement local
-2. Installer les pre-requis pour ce projet en lançant la commande:
+   - Clicker sur le bouton vert 'Clone' et copier le lien sous HTPPS ou SSH (selon la configuration de votre [git](https://git-scm.com/)
+   - Cloner le project dans un dossier que vous aurez créer exclusivement pour ce projet, en entrant la commande dans le terminal:
+    ```bash
+    git clone [le lien copié]
+    ```
+    Dans notre cas, ça sera:
+    ```bash
+    git clone git@github.com:davymariko/python_chess.git
+    ```
+  - Entrer dans le dossier généré
+  ![alt text](https://github.com/davymariko/python_chess/blob/main/donnees/git_clone.JPG)
+2. Installer l'environnement virtuel avec la commande (test_env est un nom au choix):
+   ```bash
+   virtualenv test_env
+   ```
+   et l'activer avec la commande:
+   ```bash
+   source test_env/bin/activate
+   ```
+   ou pour Windows, avec:
+   ```bash
+   test_env/Scripts/activate
+   ```
+3. Installer les pre-requis pour ce projet en lançant la commande:
 ```bash
 pip install -r requirements.txt
 ```
