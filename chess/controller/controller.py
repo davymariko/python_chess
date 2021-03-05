@@ -3,7 +3,7 @@ from chess.view.view import clear, print_preview, print_players, print_tournamen
     print_pairs, print_player_to_rank, print_create_players, print_tournaments_report, print_players_by_tournament, \
     print_tournament_matchs, print_tournament_rounds
 from chess.errors.error import score_input
-from chess.models.model import Player, Tournament, Round
+from chess.models.model import Player, Tournament
 from chess.export.database import Database
 
 
@@ -55,13 +55,9 @@ def tournament():
             return 1
         else:
             tournament = info_input
+            tournament = enter_players(tournament)
 
-    # if len(tournament.players) == 8:
-    #     pass
-    # else:
-    #     tournament = enter_players(tournament)
-
-    tournament = alternative_entry(tournament)
+    # tournament = alternative_entry(tournament)
 
     check_launch = True
     while check_launch:
@@ -80,10 +76,26 @@ def tournament():
                 clear()
                 pairs = generate_pairs(tournament, current_round)
                 tournament = enter_score(pairs, tournament, current_round)
-
-            print_preview(106)
-            sleep(2)
-            check_launch = False
+                check_exit = True
+                check = False
+                while check_exit:
+                    print_preview(123)
+                    choice_in_round = input(">>> ")
+                    if choice_in_round == "1":
+                        check_exit = False
+                    elif choice_in_round == "0":
+                        check_exit = False
+                        check = True
+                    else:
+                        print_preview(111)
+                    clear()
+                if check:
+                    break
+            
+            if len(tournament.round_matchs) == 16:
+                print_preview(106)
+                sleep(2)
+                check_launch = False
 
         elif players_choice == "1" and len(tournament.players) < 8:
             check_players = enter_players(tournament)
@@ -95,6 +107,8 @@ def tournament():
         elif players_choice == "2":
             print_players(tournament.players_in_list())
         elif players_choice == "3":
+            tournament = set_ranking(tournament)
+        elif players_choice == "4":
             check_launch = False
         else:
             print_preview(111)
@@ -242,8 +256,11 @@ def set_ranking(tournament):
             print_player_to_rank(tournament.players[index])
             ranking = input("\nNouveau classement >>> ")
             try:
-                tournament.players[index].ranking = int(ranking)
-                check = False
+                if len(ranking) == 0:
+                    check = False
+                else:
+                    tournament.players[index].ranking = int(ranking)
+                    check = False
             except Exception:
                 print_preview(113)
                 input("")
@@ -409,7 +426,8 @@ def rounds_report(tournaments_list):
             if choice == 0:
                 check_report = False
             elif choice < (len(tournaments_list) + 1) and choice > 0:
-                print_tournament_rounds(tournaments_list[choice])
+                clear()
+                print_tournament_rounds(tournaments_list[choice-1])
             else:
                 print_preview(111)
                 input("")
@@ -443,6 +461,7 @@ def load_existing_tournament():
 
     tournament = Tournament(tournament_data["name"], tournament_data["venue"], tournament_data["date"],
                             tournament_data["rounds"], [], [], tournament_data["description"])
+
     if len(database.initiate_player_table().all()) != 0:
         for player in database.initiate_player_table().all():
             player_object = Player(player["first_name"], player["last_name"], player["birth_date"],
@@ -453,10 +472,6 @@ def load_existing_tournament():
         for match in database.initiate_round_table().all():
             tournament.round_matchs.append(([match["players"][0], match["score"][0]],
                                             [match["players"][1], match["score"][1]]))
-    clear()
-    print_tournament_pre_launch(tournament)
-    print_preview(102)
-    input("")
 
     return tournament
 
@@ -476,6 +491,7 @@ def alternative_entry(tournament):
     list_temp = []
     for play in player_auto:
         player = Player(play[0], play[1], play[2], play[4], play[3])
+        database.save_player(player)
 
         list_temp.append(player)
 
