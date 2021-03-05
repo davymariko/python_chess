@@ -16,7 +16,7 @@ Les paires doivent être générées selon le système de [tournoi suisse](https
 # Environnement
 * L'installation de [Python 3](https://www.python.org/downloads/) est nécessaire pour la réalisation de ce projet
 * Après l'installation de Python3, l'installation de [pip](https://pypi.org/project/pip/) est recommandé
-* Après il est nécessaire d'installe [virtualenv](https://pypi.org/project/virtualenv/)
+* Après il est nécessaire d'installer [virtualenv](https://pypi.org/project/virtualenv/)
 * L'outil de dévelopement utilisé et recommandé: [Visual Studio Code (Vscode)](https://code.visualstudio.com/)
 * Le programme peut être executé sur Linux, Mac et Windows
 * Base de donnée: [TinyDB](https://tinydb.readthedocs.io/en/latest/)
