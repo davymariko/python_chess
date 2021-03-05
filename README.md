@@ -23,7 +23,7 @@ Les paires doivent être générées selon le système de [tournoi suisse](https
 
 # Installation
 1. Cloner, en premier, le projet sur votre bureau ou environnement local
-   - Clicker sur le bouton vert 'Clone' et copier le lien sous HTPPS ou SSH (selon la configuration de votre [git](https://git-scm.com/)
+   - Clicker sur le bouton vert 'Clone' en haut à droite et copier le lien sous HTPPS ou SSH (selon la configuration de votre [git](https://git-scm.com/)
    - Cloner le project dans un dossier que vous aurez créer exclusivement pour ce projet, en entrant la commande dans le terminal:
     ```bash
     git clone [le lien copié]
