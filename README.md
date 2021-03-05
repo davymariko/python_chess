@@ -28,12 +28,15 @@ Les paires doivent être générées selon le système de [tournoi suisse](https
     ```bash
     git clone [le lien copié]
     ```
+    
+    ![alt text](https://github.com/davymariko/python_chess/blob/main/donnees/git_clone.JPG)
+    
     Dans notre cas, ça sera:
     ```bash
     git clone git@github.com:davymariko/python_chess.git
     ```
-  - Entrer dans le dossier généré
-  ![alt text](https://github.com/davymariko/python_chess/blob/main/donnees/git_clone.JPG)
+   Entrer dans le dossier généré
+
 2. Installer l'environnement virtuel avec la commande (test_env est un nom au choix):
    ```bash
    virtualenv test_env
@@ -46,6 +49,7 @@ Les paires doivent être générées selon le système de [tournoi suisse](https
    ```bash
    test_env/Scripts/activate
    ```
+ 
 3. Installer les pre-requis pour ce projet en lançant la commande:
 ```bash
 pip install -r requirements.txt
