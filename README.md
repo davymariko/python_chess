@@ -29,7 +29,7 @@ Les paires doivent être générées selon le système de [tournoi suisse](https
     git clone [le lien copié]
     ```
     
-    ![alt text](https://github.com/davymariko/python_chess/blob/main/donnees/clone.JPG =250x)
+    ![alt text](https://github.com/davymariko/python_chess/blob/main/donnees/clone.JPG)
     
     Dans notre cas, ça sera:
     ```bash
