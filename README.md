@@ -29,7 +29,7 @@ Les paires doivent être générées selon le système de [tournoi suisse](https
     git clone [le lien copié]
     ```
     
-    ![alt text](https://github.com/davymariko/python_chess/blob/main/donnees/git_clone.JPG)
+    ![alt text](https://github.com/davymariko/python_chess/blob/main/donnees/clone.JPG)
     
     Dans notre cas, ça sera:
     ```bash
@@ -48,6 +48,10 @@ Les paires doivent être générées selon le système de [tournoi suisse](https
    ou pour Windows, avec:
    ```bash
    test_env/Scripts/activate
+   ```
+   à la fin, pour désactiver l'environnement:
+   ```bash
+   deactivate
    ```
  
 3. Installer les pre-requis pour ce projet en lançant la commande:
