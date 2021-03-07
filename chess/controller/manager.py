@@ -476,12 +476,12 @@ class ManageTournament:
         #                 ["Kessia", "Ntibibuka", "03/02/1997", 5, "F"], ["Arno", "Rwasa", "04/04/1994", 6, "H"],
         #                 ["Orlando", "Nkurunziza", "08/05/1996", 7, "H"], ["Vanessa", "Uwase", "04/03/1995", 8, "F"]]
 
-        list_temp = []
-        for play in player_auto:
-            player = Player(play[0], play[1], play[2], play[4], play[3])
-            database.save_player(player)
+        # list_temp = []
+        # for play in player_auto:
+        #     player = Player(play[0], play[1], play[2], play[4], play[3])
+        #     database.save_player(player)
 
-            list_temp.append(player)
+        #     list_temp.append(player)
 
         # list_temp = []
         # for play in players_list():
@@ -490,8 +490,8 @@ class ManageTournament:
 
         #     list_temp.append(player)
 
-        tournament.players = list_temp
+        # tournament.players = list_temp
 
-        return tournament
+        # return tournament
 
-        # pass
+        pass
