@@ -209,22 +209,26 @@ class ManageTournament:
         return tournament
 
     def set_ranking(self, tournament):
-        for index in range(0, len(tournament.players)):
-            check = True
-            while check:
-                clear()
-                print_preview(112)
-                print_player_to_rank(tournament.players[index])
-                ranking = input("\nNouveau classement >>> ")
-                try:
-                    if len(ranking) == 0:
-                        check = False
-                    else:
-                        tournament.players[index].ranking = int(ranking)
-                        check = False
-                except Exception:
-                    print_preview(113)
-                    input("")
+        if len(tournament.players) == 0:
+            print_preview(124)
+            input("")
+        else:
+            for index in range(0, len(tournament.players)):
+                check = True
+                while check:
+                    clear()
+                    print_preview(112)
+                    print_player_to_rank(tournament.players[index])
+                    ranking = input("\nNouveau classement >>> ")
+                    try:
+                        if len(ranking) == 0:
+                            check = False
+                        else:
+                            tournament.players[index].ranking = int(ranking)
+                            check = False
+                    except Exception:
+                        print_preview(113)
+                        input("")
 
         return tournament
 
