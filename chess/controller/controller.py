@@ -1,6 +1,6 @@
 from time import sleep
-from chess.view.view import clear, print_preview, print_players, print_tournament_pre_launch, print_all_players, \
-    print_pairs, print_player_to_rank, print_create_players, print_tournaments_report, print_players_by_tournament, \
+from chess.view.view import clear, print_preview, display_players, print_tournament_pre_launch, \
+    print_pairs, print_player_to_rank, print_create_players, print_tournaments_report, \
     print_tournament_matchs, print_tournament_rounds
 from chess.errors.error import score_input
 from chess.models.model import Player, Tournament
@@ -268,6 +268,46 @@ def set_ranking(tournament):
     return tournament
 
 
+def print_players(players_list):
+    if len(players_list) == 0:
+        print_preview(124)
+        input("")
+        return
+    check = True
+    while check:
+        clear()
+        print_preview(125)
+        order_choice = input("\n>>> ")
+        sorted_dict = []
+        if order_choice == "1":
+            sorted_dict = sorted(players_list, key=lambda players: players.get('last_name', {}))
+        elif order_choice == "2":
+            sorted_dict = sorted(players_list, key=lambda players: players.get('ranking', {}))
+        elif order_choice == "3":
+            sorted_dict = sorted(players_list, key=lambda players: players.get('last_name', {}), reverse=True)
+        elif order_choice == "4":
+            sorted_dict = sorted(players_list, key=lambda players: players.get('ranking', {}), reverse=True)
+        elif order_choice == "5":
+            break
+        else:
+            print_preview(111)
+
+        display_players(sorted_dict)
+
+
+def print_players_by_tournament(tournaments_list, choice):
+    print_players(tournaments_list[choice-1]["players"])
+
+
+def print_all_players(tournament_list):
+    all_players_list = []
+    for tournament in tournament_list:
+        for player in tournament["players"]:
+            all_players_list.append(player)
+
+    print_players(all_players_list)
+
+
 def check_existing_tournament():
     check = True
     while check:
@@ -364,7 +404,9 @@ def report():
 
         if choice == "1":
             print_tournaments_report(tournaments_list)
-        if choice == "2":
+            print_preview(102)
+            input("")
+        elif choice == "2":
             players_report(tournaments_list)
         elif choice == "3":
             matchs_report(tournaments_list)

@@ -10,39 +10,16 @@ def print_tournament_pre_launch(info):
     return
 
 
-def print_players(players_list):
-    if len(players_list) == 0:
-        print("Y a aucun joueur inscrit")
-        input("")
-        return
-    check = True
-    while check:
-        clear()
-        print("1. Par ordre croissant (Nom)\n2. Par ordre croissant (Classement)\
-        \n3. Par ordre décroissant (Nom)\n4. Par ordre décroissant (Classement)\n5. Retour")
-        order_choice = input("\n>>> ")
-        sorted_dict = []
-        if order_choice == "1":
-            sorted_dict = sorted(players_list, key=lambda players: players.get('last_name', {}))
-        elif order_choice == "2":
-            sorted_dict = sorted(players_list, key=lambda players: players.get('ranking', {}))
-        elif order_choice == "3":
-            sorted_dict = sorted(players_list, key=lambda players: players.get('last_name', {}), reverse=True)
-        elif order_choice == "4":
-            sorted_dict = sorted(players_list, key=lambda players: players.get('ranking', {}), reverse=True)
-        elif order_choice == "5":
-            break
-        else:
-            print("*** Mauvaix choix")
-        number = 1
-        print("Liste des joueurs\n==================")
-        print("     Nom\t\t\tDate de Naissance\tSexe\tClassement")
-        print("-"*75)
-        for play in sorted_dict:
-            whole_name = play['last_name'] + " " + play['first_name']
-            print(f"{number:<5}{whole_name:<28s}{play['birth_date']}\t\t{play['gender']}\t{play['ranking']}")
-            number += 1
-        input("")
+def display_players(sorted_dict):
+    number = 1
+    print("Liste des joueurs\n==================")
+    print("     Nom\t\t\tDate de Naissance\tSexe\tClassement")
+    print("-"*75)
+    for play in sorted_dict:
+        whole_name = play['last_name'] + " " + play['first_name']
+        print(f"{number:<5}{whole_name:<28s}{play['birth_date']}\t\t{play['gender']}\t{play['ranking']}")
+        number += 1
+    input("")
 
 
 def print_pairs(pairs_list, players_list, current_tour):
@@ -81,19 +58,6 @@ def print_tournaments_report(tournaments_list):
         print(f"{number}. {name:<21s}{venue:<24s}{date}\t{description}\n")
 
         number += 1
-
-
-def print_players_by_tournament(tournaments_list, choice):
-    print_players(tournaments_list[choice-1]["players"])
-
-
-def print_all_players(tournament_list):
-    all_players_list = []
-    for tournament in tournament_list:
-        for player in tournament["players"]:
-            all_players_list.append(player)
-
-    print_players(all_players_list)
 
 
 def print_tournament_rounds(tournament):
@@ -165,7 +129,10 @@ def print_preview(message_number):
         120: "\n\n *** Le joueur existe déjà",
         121: "\n\n *** Pas de tournoi en cours",
         122: "\n\n *** Pas de tournoi deja joué",
-        123: "\n\n1. Continuer\n0. Retour"
+        123: "\n\n1. Continuer\n0. Retour",
+        124: "\nY a aucun joueur inscrit",
+        125: "1. Par ordre croissant (Nom)\n2. Par ordre croissant (Classement)\
+            \n3. Par ordre décroissant (Nom)\n4. Par ordre décroissant (Classement)\n5. Retour"
     }
 
     print(messages_dict[message_number])
