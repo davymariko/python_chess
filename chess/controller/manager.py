@@ -30,10 +30,9 @@ class ManageTournament:
             print_tournament_pre_launch(tournament)
             if len(tournament.players) == 8:
                 print_preview(109)
-                players_choice = input("\n>>> ")
             else:
                 print_preview(110)
-                players_choice = input("\n>>> ")
+            players_choice = input("\n>>> ")
 
             if players_choice == "1" and len(tournament.players) == 8:
                 played_rounds = int(len(database.initiate_round_table().all()) / 4)
