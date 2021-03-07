@@ -29,7 +29,7 @@ def print_pairs(pairs_list, players_list, current_tour):
         player1 = [[x['last_name'], x['first_name']] for x in players_list if x['id'] == pair[0]]
         player2 = [[x['last_name'], x['first_name']] for x in players_list if x['id'] == pair[1]]
         whole_name1 = player1[0][0] + " " + player1[0][1]
-        whole_name2 = player2[0][0] + " " + player1[0][1]
+        whole_name2 = player2[0][0] + " " + player2[0][1]
         print(f"{match}. {whole_name1:<20} vs   {whole_name2}")
         print("-"*40)
         match += 1
