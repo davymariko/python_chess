@@ -1,97 +1,210 @@
 from tinydb import TinyDB
 
 
-def initiate_player_table():
-    database = TinyDB('database/players.json')
-    table = database.table('players')
+class Database:
+    def __init__(self):
+        self.tournaments_db = 'database/tournaments.json'
+        self.temporary_db = 'database/temporary.json'
 
-    return table
+    def initiate_player_table(self):
+        database = TinyDB(self.temporary_db)
+        table = database.table('players')
 
+        return table
 
-def initiate_round_table():
-    database = TinyDB('database/tours.json')
-    table = database.table('game')
+    def initiate_round_table(self):
+        database = TinyDB(self.temporary_db)
+        table = database.table('game')
 
-    return table
+        return table
 
+    def initiate_tournament_table(self):
+        database = TinyDB(self.tournaments_db)
+        table = database.table('tournament')
 
-def initiate_tournament_table():
-    database = TinyDB('database/tournaments.json')
-    table = database.table('tournament')
+        return table
 
-    return table
+    def initiate_unfinished_tournament_table(self):
+        database = TinyDB(self.temporary_db)
+        table = database.table('tournament')
 
+        return table
 
-def save_player(player_dict):
-    players_table = initiate_player_table()
-    result = check_player_duplicates(players_table, player_dict)
-    if result == 1:
-        print("réessayer avec un autre joueur")
-        input("")
-    else:
-        players_table.insert(player_dict)
-
-    return result
-
-
-def save_rounds(match_info):
-    match_table = initiate_round_table()
-    for match in match_info:
-        match_dict = {
-            "players": match[0],
-            "score": [float(match[1][0]), float(match[1][1])]
+    def save_player(self, player):
+        player_record = {
+            'id': player.id,
+            'first_name': player.first_name,
+            'last_name': player.last_name,
+            'birth_date': player.birth_date,
+            'gender': player.gender,
+            'ranking': player.ranking
         }
-        match_table.insert(match_dict)
+
+        players_table = self.initiate_player_table()
+        players_table.insert(player_record)
+
+    def save_rounds(self, match_info):
+        match_table = self.initiate_round_table()
+        for match in match_info:
+            match_dict = {
+                "players": [match[0][0], match[1][0]],
+                "score": [float(match[0][1]), float(match[1][1])]
+            }
+            match_table.insert(match_dict)
+
+    def save_tournament(self, tournament):
+        tournament_table = self.initiate_tournament_table()
+
+        tournament_info = {
+            'name': tournament.name,
+            'venue': tournament.venue,
+            'date': tournament.date,
+            'rounds': tournament.rounds,
+            'players': tournament.players_in_list(),
+            'description': tournament.description,
+            'round_matchs': tournament.round_matchs
+        }
+
+        tournament_table.insert(tournament_info)
+
+    def pre_save_tournament(self, tournament):
+        tournament_table = self.initiate_unfinished_tournament_table()
+
+        tournament_info = {
+            'name': tournament.name,
+            'venue': tournament.venue,
+            'date': tournament.date,
+            'rounds': tournament.rounds,
+            'description': tournament.description
+        }
+
+        tournament_table.insert(tournament_info)
+
+    def delete_all_players(self):
+        players_table = self.initiate_player_table()
+        players_table.truncate()
+
+    def delete_all_matchs(self):
+        rounds_table = self.initiate_round_table()
+        rounds_table.truncate()
+
+    def delete_existing_tournament(self):
+        tournament_table = self.initiate_unfinished_tournament_table()
+        tournament_table.truncate()
+        self.delete_all_players()
+        self.delete_all_matchs()
 
 
-def save_tournament(tournament):
-    tournament_info = {
-        'name': tournament.name,
-        'venue': tournament.venue,
-        'date': tournament.date,
-        'rounds': tournament.tours,
-        'round_matchs': tournament.round_matchs
-    }
-    tournament_table = initiate_tournament_table()
-    tournament_table.insert(tournament_info)
+# # Linear programming
+# def initiate_player_table():
+#     database = TinyDB('database/temporary.json')
+#     table = database.table('players')
+
+#     return table
 
 
-def players_list():
+# def initiate_round_table():
+#     database = TinyDB('database/temporary.json')
+#     table = database.table('game')
 
-    return initiate_player_table().all()
-
-
-def matchs_list():
-
-    return initiate_round_table().all()
+#     return table
 
 
-def tournaments_list():
+# def initiate_tournament_table():
+#     database = TinyDB('database/tournaments.json')
+#     table = database.table('tournament')
 
-    return initiate_tournament_table()
-
-
-def players_number():
-
-    return len(initiate_player_table())
+#     return table
 
 
-def delete_all_players():
-    players_table = initiate_player_table()
-    players_table.truncate()
+# def initiate_unfinished_tournament_table():
+#     database = TinyDB('database/temporary.json')
+#     table = database.table('tournament')
+
+#     return table
 
 
-def delete_all_matchs():
-    rounds_table = initiate_round_table()
-    rounds_table.truncate()
+# def save_player(player):
+#     player_record = {
+#         'id': player.id,
+#         'first_name': player.first_name,
+#         'last_name': player.last_name,
+#         'birth_date': player.birth_date,
+#         'gender': player.gender,
+#         'ranking': player.ranking
+#     }
+
+#     players_table = initiate_player_table()
+#     players_table.insert(player_record)
 
 
-def check_player_duplicates(table, player_info):
-    check = 0
-    for player in table.all():
-        if (player['id'] == player_info['id']):
-            print("\n**** Ce joueur existe déjà\n")
-            check += 1
-            break
+# def save_rounds(match_info):
+#     match_table = initiate_round_table()
+#     for match in match_info:
+#         match_dict = {
+#             "players": [match[0][0], match[1][0]],
+#             "score": [float(match[0][1]), float(match[1][1])]
+#         }
+#         match_table.insert(match_dict)
 
-    return check
+
+# def save_tournament(tournament):
+#     tournament_table = initiate_tournament_table()
+
+#     tournament_info = {
+#         'name': tournament.name,
+#         'venue': tournament.venue,
+#         'date': tournament.date,
+#         'players': tournament.players_in_list(),
+#         'rounds': tournament.rounds,
+#         'round_matchs': tournament.round_matchs,
+#         'description': tournament.description
+#     }
+
+#     tournament_table.insert(tournament_info)
+
+
+# def pre_save_tournament(tournament):
+#     tournament_table = initiate_unfinished_tournament_table().all
+
+#     tournament_info = {
+#         'name': tournament.name,
+#         'venue': tournament.venue,
+#         'date': tournament.date,
+#         'description': tournament.description,
+#         'players': tournament.players_in_list(),
+#         'rounds': tournament.rounds,
+#         'round_matchs': tournament.round_matchs
+#     }
+
+#     tournament_table.insert(tournament_info)
+
+
+# def players_list():
+
+#     return initiate_player_table().all()
+
+
+# def matchs_list():
+
+#     return initiate_round_table().all()
+
+
+# def tournaments_list():
+
+#     return initiate_tournament_table().all()
+
+
+# def players_number():
+
+#     return len(initiate_player_table())
+
+
+# def delete_all_players():
+#     players_table = initiate_player_table()
+#     players_table.truncate()
+
+
+# def delete_all_matchs():
+#     rounds_table = initiate_round_table()
+#     rounds_table.truncate()
