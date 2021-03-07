@@ -112,7 +112,8 @@ def print_preview(message_number):
             \n*** Entrer score par numéro/ordre des matchs\n*** Exemple format(1-0)\n",
         109: "\n1. Lancer le tournoi\n2. Voir les joeurs inscrits\n3. Mettre à jour le classement\
             \n4. Retour au menu principal",
-        110: "\n1. Continuer à inscrire des joueurs\n2. Voir les joeurs inscrits\n3. Retour au menu principal",
+        110: "\n1. Continuer à inscrire des joueurs\n2. Voir les joeurs inscrits\
+            \n3. Mettre à jour le classement\n4. Retour au menu principal",
         111: "\n**** Mauvais choix, reessayer",
         112: "######## Nouveau Classement ########\
             \n\n***Laissez vide pour garder le classement actuel du joueur",
